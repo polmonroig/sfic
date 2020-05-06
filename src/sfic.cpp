@@ -13,12 +13,13 @@ void usage(){
 
 int main(int argc, char* argv[]){
 
-    if(argc < 2){
+    if(argc < 3){
         usage();
         return -1;
     }
 
     sfic::Image image(argv[1]);
+    image.save(argv[2]);
 
 
     return 0;

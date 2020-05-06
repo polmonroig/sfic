@@ -11,7 +11,9 @@ namespace sfic{
 
     public:
 
-        void read(std::string const& imagePath);
+        void read(std::string const& path);
+
+        void write(std::string const& path) const;
 
 
     private:

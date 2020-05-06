@@ -13,7 +13,10 @@ namespace sfic{
 
         Image() = default;
 
-        Image(std::string const& imagePath);
+        Image(std::string const& path);
+
+
+        void save(std::string const& path) const;
 
     private:
 

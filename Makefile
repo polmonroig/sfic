@@ -1,6 +1,7 @@
 STD = -std=c++2a
 OPT = -O3
-GCC = g++ $(OPT) $(STD)
+WARN = -Wall -Wextra
+GCC = g++ $(OPT) $(STD) $(WARN)
 
 
 INCLUDE = include/*

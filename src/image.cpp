@@ -2,6 +2,21 @@
 
 using namespace sfic;
 
-Image::Image(std::string const& imagePath){
-    data.read(imagePath); 
+/************************
+        PUBLIC
+*************************/
+
+
+Image::Image(std::string const& path){
+    data.read(path);
 }
+
+
+void Image::save(std::string const& path) const{
+    data.write(path);
+}
+
+
+/************************
+        PRIVATE
+*************************/
