@@ -18,7 +18,7 @@ void Image::save(std::string const& path) const{
 
 
 void Image::convert(FormatContainer const& newFormat){
-    format = newFormat;
+    data.convert(newFormat); 
 }
 
 

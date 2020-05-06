@@ -2,7 +2,6 @@
 #define  IMAGE_H
 
 #include <string>
-#include <memory>
 
 #include "raw_data.h"
 

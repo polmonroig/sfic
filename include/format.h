@@ -2,18 +2,19 @@
 #define  FORMAT_H
 
 #include <string>
+#include <memory>
 
 namespace sfic{
 
-    typedef std::shared_ptr<Format> FormatContainer;
+
+
 
     class Format{
 
 
     public:
 
-        static FormatContainer stringToFormat(std::string const& format);
-
+        virtual void convert() = 0;
 
 
     private:
@@ -21,6 +22,8 @@ namespace sfic{
 
     };
 
+
+    typedef std::shared_ptr<Format> FormatContainer;
 
 }
 

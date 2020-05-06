@@ -2,6 +2,7 @@
 
 
 #include "../include/image.h"
+#include "../include/jpeg_format.h"
 
 
 void usage(){
@@ -22,7 +23,7 @@ int main(int argc, char* argv[]){
     // create image
     sfic::Image image(argv[1]);
     // convert
-    sfic::FormatContainer newFormat = sfic::Format::stringToFormat(argv[2]);
+    sfic::FormatContainer newFormat = std::make_shared<sfic::JPEGFormat>();
     image.convert(newFormat);
     // save to file
     image.save(argv[2]);
