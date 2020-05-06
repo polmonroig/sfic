@@ -1,24 +1,30 @@
 #include <iostream>
 
+
 #include "../include/image.h"
 
 
 void usage(){
-    std::cout << "  Usage: sfic input output format" << std::endl;
+    std::cout << "  Usage: sfic input output format" << std::endl << std::endl;
     std::cout << "  input: image to be converted" << std::endl;
     std::cout << "  output: output compression" << std::endl;
+    std::cout << "  format: the format to be converted to (JPEG, PNG, PPM, TIF, GIF)" << std::endl<< std::endl;
 
 }
 
 
 int main(int argc, char* argv[]){
 
-    if(argc < 3){
+    if(argc < 4){
         usage();
         return -1;
     }
-
+    // create image
     sfic::Image image(argv[1]);
+    // convert
+    sfic::FormatContainer newFormat = sfic::Format::stringToFormat(argv[2]);
+    image.convert(newFormat);
+    // save to file
     image.save(argv[2]);
 
 

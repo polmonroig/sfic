@@ -2,6 +2,7 @@
 #define  IMAGE_H
 
 #include <string>
+#include <memory>
 
 #include "raw_data.h"
 
@@ -11,14 +12,18 @@ namespace sfic{
 
     public:
 
+
         Image() = default;
 
-        Image(std::string const& path);
+        explicit Image(std::string const& path);
 
 
         void save(std::string const& path) const;
 
+        void convert(FormatContainer const& newFormat);
+
     private:
+
 
         RawData data;
 
