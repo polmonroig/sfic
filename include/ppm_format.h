@@ -1,12 +1,12 @@
-#ifndef JPEG_FORMAT_H
-#define  JPEG_FORMAT_H
+#ifndef PPM_FORMAT_H
+#define  PPM_FORMAT_H
 
 #include "matrix.h"
 #include "format.h"
 
 namespace sfic{
 
-    class JPEGFormat : public Format{
+    class PPMFormat : public Format{
 
     public:
 

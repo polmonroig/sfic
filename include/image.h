@@ -5,6 +5,7 @@
 
 #include "format.h"
 #include "jpeg_format.h"
+#include "ppm_format.h"
 
 namespace sfic{
 

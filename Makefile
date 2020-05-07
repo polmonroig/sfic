@@ -4,7 +4,8 @@ WARN = -Wall -Wextra
 GCC = g++ $(OPT) $(STD) $(WARN)
 PROGRAM = sfic
 
-FILES = format image jpeg_format matrix raw_data
+FORMATS = ppm_format jpeg_format
+FILES = format image $(FORMATS) matrix raw_data 
 INCLUDE = $(addprefix include/,$(addsuffix .h,$(FILES)))
 MAIN = src/sfic.cpp
 SRC = $(addprefix src/,$(addsuffix .cpp,$(FILES))) $(MAIN)
