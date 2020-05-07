@@ -14,14 +14,15 @@ Matrix PPMFormat::decode(){
     auto width = readSize();
     auto height = readSize();
     auto maxSize = readSize();
+    std::cout << "Max Size: " << maxSize << std::endl;
     std::cout << "Image of size (" << width << "," << height << ")\n";
     if(p == PPMType::P3){
         std::cout << "Image with type P3 found" << std::endl;
-        return readP3(width, height);
+        return readP3(maxSize, width, height);
     }
     else{
-        std::cout << "Image with type P6 found, currently unsuported" << std::endl;
-        return readP6(width, height);
+        std::cout << "Image with type P6 found" << std::endl;
+        return readP6(maxSize, width, height);
     }
 
 }
@@ -29,20 +30,17 @@ Matrix PPMFormat::decode(){
 void PPMFormat::encode(Matrix decodedImage){
     auto width = decodedImage.width();
     auto height = decodedImage.height();
-    std::cout << "New image has width " << width << std::endl;
-    std::cout << "New image has height " << height << std::endl;
     data.push("P6\n");
     data.push(std::to_string(width) + " ");
     data.push(std::to_string(height) + "\n");
+    data.push("255\n");
     for(int i = 0; i < height; ++i){
         for(int j = 0; j < width; ++j){
             auto color = decodedImage.get(i, j);
             for(auto const& value : color){
-                data.push(std::to_string(value) + " ");
+                data.push(char(value * 255));
             }
         }
-        data.push('\n');
-
     }
 
 }
@@ -105,15 +103,20 @@ inline MatSize PPMFormat::readSize(){
     return std::stoi(value);
 }
 
-Matrix PPMFormat::readP3(MatSize width, MatSize height){
+inline ByteType PPMFormat::readByte(){
+    return data.get(iterator++);
+}
+
+Matrix PPMFormat::readP3(MatSize maxValue, MatSize width, MatSize height){
     Matrix image(width, height, N_CHANNELS);
     int i, j;
     i = j = 0; // matrix iterators
+    std::cout << "Data: " << iterator << std::endl;
     while(iterator < data.size()){
         if(!skipEmpty()){
-            auto r = readSize();
-            auto g = readSize();
-            auto b = readSize();
+            auto r = float(readSize()) / maxValue;
+            auto g = float(readSize()) / maxValue;
+            auto b = float(readSize()) / maxValue;
             ChannelType channel{r, g, b};
             image.set(i, j, channel);
             ++j;
@@ -128,8 +131,27 @@ Matrix PPMFormat::readP3(MatSize width, MatSize height){
     return image;
 }
 
-Matrix PPMFormat::readP6(MatSize width, MatSize height){
+Matrix PPMFormat::readP6(MatSize maxValue, MatSize width, MatSize height){
     Matrix image(width, height, N_CHANNELS);
+    int i, j;
+    i = j = 0; // matrix iterators
+    std::cout << "DataSize: " << data.size() << std::endl;
 
+    ++iterator;
+    while(iterator < data.size()){
+        int pos = iterator;
+
+        auto r = float(readByte()) / maxValue;
+        auto g = float(readByte()) / maxValue;
+        auto b = float(readByte()) / maxValue;
+        ChannelType channel{r, g, b};
+        image.set(i, j, channel);
+        ++j;
+        if(j >= width){
+            i++;
+            j = 0;
+        }
+    }
+    std::cout << "Iterator: " << iterator << std::endl;
     return image;
 }

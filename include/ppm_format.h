@@ -32,9 +32,11 @@ namespace sfic{
 
         inline MatSize readSize();
 
-        Matrix readP3(MatSize width, MatSize height);
+        inline ByteType readByte();
 
-        Matrix readP6(MatSize width, MatSize height);
+        Matrix readP3(MatSize maxValue, MatSize width, MatSize height);
+
+        Matrix readP6(MatSize maxValue, MatSize width, MatSize height);
 
 
         static const MatSize N_CHANNELS = 3;
