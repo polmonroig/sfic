@@ -108,7 +108,7 @@ inline ByteType PPMFormat::readByte(){
 }
 
 Matrix PPMFormat::readP3(MatSize maxValue, MatSize width, MatSize height){
-    Matrix image(width, height, N_CHANNELS);
+    Matrix image(height, width, N_CHANNELS);
     int i, j;
     i = j = 0; // matrix iterators
     while(iterator < data.size()){
@@ -129,13 +129,12 @@ Matrix PPMFormat::readP3(MatSize maxValue, MatSize width, MatSize height){
 }
 
 Matrix PPMFormat::readP6(MatSize maxValue, MatSize width, MatSize height){
-    Matrix image(width, height, N_CHANNELS);
+    Matrix image(height, width, N_CHANNELS);
     int i, j;
     i = j = 0; // matrix iterators
 
-    //++iterator;
-    while(iterator < data.size()){
 
+    while(iterator < data.size()){
         auto r = float(readByte()) / maxValue;
         auto g = float(readByte()) / maxValue;
         auto b = float(readByte()) / maxValue;
