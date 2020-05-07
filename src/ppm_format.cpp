@@ -133,7 +133,7 @@ Matrix PPMFormat::readP6(MatSize maxValue, MatSize width, MatSize height){
     int i, j;
     i = j = 0; // matrix iterators
 
-    ++iterator;
+    //++iterator;
     while(iterator < data.size()){
 
         auto r = float(readByte()) / maxValue;
