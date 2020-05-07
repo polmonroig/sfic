@@ -3,7 +3,8 @@
 
 #include <string>
 
-#include "raw_data.h"
+#include "format.h"
+#include "jpeg_format.h"
 
 namespace sfic{
 
@@ -21,10 +22,15 @@ namespace sfic{
 
         void convert(FormatContainer const& newFormat);
 
+
+        static FormatContainer stringToFormat(std::string const& formatName);
+
     private:
 
+        static std::string getExtension(std::string const& path);
 
-        RawData data;
+
+        FormatContainer format;
 
     };
 

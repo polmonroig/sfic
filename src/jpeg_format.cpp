@@ -3,8 +3,21 @@
 
 using namespace sfic;
 
+/************************
+        PUBLIC
+*************************/
 
+void JPEGFormat::decode(){
 
-void JPEGFormat::convert(){
-    
 }
+
+void JPEGFormat::encode(){
+
+}
+
+
+
+
+/************************
+        PRIVATE
+*************************/

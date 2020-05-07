@@ -8,20 +8,33 @@ using namespace sfic;
 
 
 Image::Image(std::string const& path){
-    data.read(path);
+    format = stringToFormat(getExtension(path));
+    //data.read(path);
 }
 
 
+
+
 void Image::save(std::string const& path) const{
-    data.write(path);
+    // data.write(path);
 }
 
 
 void Image::convert(FormatContainer const& newFormat){
-    data.convert(newFormat); 
+    // Matrix decodedImage = format.decode()
+    // format = newFormat; // delete old data
+    // format.encode(decodedImage)
 }
 
+
+FormatContainer Image::stringToFormat(std::string const& formatName){
+    return std::make_shared<JPEGFormat>();
+}
 
 /************************
         PRIVATE
 *************************/
+
+std::string Image::getExtension(std::string const& path){
+    return "JPEG";
+}

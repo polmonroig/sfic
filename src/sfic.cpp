@@ -23,7 +23,7 @@ int main(int argc, char* argv[]){
     // create image
     sfic::Image image(argv[1]);
     // convert
-    sfic::FormatContainer newFormat = std::make_shared<sfic::JPEGFormat>();
+    sfic::FormatContainer newFormat = sfic::Image::stringToFormat(argv[3]);
     image.convert(newFormat);
     // save to file
     image.save(argv[2]);

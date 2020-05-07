@@ -14,8 +14,9 @@ namespace sfic{
 
     public:
 
-        virtual void convert() = 0;
+        virtual void encode() = 0;
 
+        virtual void decode() = 0;
 
     private:
 
