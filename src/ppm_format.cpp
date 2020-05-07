@@ -34,11 +34,11 @@ void PPMFormat::encode(Matrix decodedImage){
     data.push(std::to_string(width) + " ");
     data.push(std::to_string(height) + "\n");
     data.push("255\n");
-    for(int i = 0; i < height; ++i){
-        for(int j = 0; j < width; ++j){
+    for(unsigned int i = 0; i < height; ++i){
+        for(unsigned int j = 0; j < width; ++j){
             auto color = decodedImage.get(i, j);
             for(auto const& value : color){
-                data.push(char(value * 255));
+                data.push(int(value * 255));
             }
         }
     }
@@ -111,7 +111,6 @@ Matrix PPMFormat::readP3(MatSize maxValue, MatSize width, MatSize height){
     Matrix image(width, height, N_CHANNELS);
     int i, j;
     i = j = 0; // matrix iterators
-    std::cout << "Data: " << iterator << std::endl;
     while(iterator < data.size()){
         if(!skipEmpty()){
             auto r = float(readSize()) / maxValue;
@@ -124,8 +123,6 @@ Matrix PPMFormat::readP3(MatSize maxValue, MatSize width, MatSize height){
                 i++;
                 j = 0;
             }
-            std::cout << "Value (" << r << "," << g << ","<< b << ")\n";
-
         }
     }
     return image;
@@ -135,11 +132,9 @@ Matrix PPMFormat::readP6(MatSize maxValue, MatSize width, MatSize height){
     Matrix image(width, height, N_CHANNELS);
     int i, j;
     i = j = 0; // matrix iterators
-    std::cout << "DataSize: " << data.size() << std::endl;
 
     ++iterator;
     while(iterator < data.size()){
-        int pos = iterator;
 
         auto r = float(readByte()) / maxValue;
         auto g = float(readByte()) / maxValue;
@@ -152,6 +147,5 @@ Matrix PPMFormat::readP6(MatSize maxValue, MatSize width, MatSize height){
             j = 0;
         }
     }
-    std::cout << "Iterator: " << iterator << std::endl;
     return image;
 }

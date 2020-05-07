@@ -28,7 +28,8 @@ void Image::convert(FormatContainer const& newFormat){
 
 
 FormatContainer Image::stringToFormat(std::string const& formatName){
-    return std::make_shared<PPMFormat>();
+    if(formatName == "PPM")return std::make_shared<PPMFormat>();
+    else return std::make_shared<JPEGFormat>(); 
 }
 
 /************************
@@ -36,5 +37,6 @@ FormatContainer Image::stringToFormat(std::string const& formatName){
 *************************/
 
 std::string Image::getExtension(std::string const& path){
+
     return "PPM";
 }
