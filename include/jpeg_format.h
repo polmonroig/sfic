@@ -10,7 +10,7 @@ namespace sfic{
 
     public:
 
-        Matrix decode() const override;
+        Matrix decode() override;
 
         void encode(Matrix decodedImage) override;
 

@@ -23,11 +23,13 @@ namespace sfic{
 
         virtual void encode(Matrix decodedImage) = 0;
 
-        virtual Matrix decode() const = 0;
+        virtual Matrix decode() = 0;
 
-    private:
+    protected:
 
         RawData data;
+
+        MatSize iterator;
 
 
     };

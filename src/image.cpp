@@ -21,14 +21,14 @@ void Image::save(std::string const& path) const{
 
 
 void Image::convert(FormatContainer const& newFormat){
-    // Matrix decodedImage = format.decode()
-    // format = newFormat; // delete old data
-    // format.encode(decodedImage)
+    Matrix decodedImage = format->decode();
+    format = newFormat; // delete old data
+    format->encode(decodedImage);
 }
 
 
 FormatContainer Image::stringToFormat(std::string const& formatName){
-    return std::make_shared<JPEGFormat>();
+    return std::make_shared<PPMFormat>();
 }
 
 /************************
@@ -36,5 +36,5 @@ FormatContainer Image::stringToFormat(std::string const& formatName){
 *************************/
 
 std::string Image::getExtension(std::string const& path){
-    return "JPEG";
+    return "PPM";
 }

@@ -7,7 +7,7 @@ using namespace sfic;
         PUBLIC
 *************************/
 
-Matrix JPEGFormat::decode() const{
+Matrix JPEGFormat::decode(){
     return Matrix();
 }
 
