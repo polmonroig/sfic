@@ -5,7 +5,6 @@
 #include <fstream>
 #include <iostream>
 
-#include "format.h"
 
 namespace sfic{
 
@@ -17,11 +16,7 @@ namespace sfic{
 
         void write(std::string const& path) const;
 
-        void convert(FormatContainer const& newFormat);
-
     private:
-
-        FormatContainer format;
 
         typedef unsigned char ByteType;
 

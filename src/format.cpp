@@ -8,6 +8,14 @@ using namespace sfic;
 *************************/
 
 
+void Format::read(std::string const& path){
+    data.read(path);
+}
+
+void Format::write(std::string const& path){
+    data.write(path);
+}
+
 
 /************************
         PRIVATE

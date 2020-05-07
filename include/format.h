@@ -4,6 +4,9 @@
 #include <string>
 #include <memory>
 
+#include "raw_data.h"
+#include "matrix.h"
+
 namespace sfic{
 
 
@@ -14,11 +17,17 @@ namespace sfic{
 
     public:
 
-        virtual void encode() = 0;
+        virtual void read(std::string const& path);
 
-        virtual void decode() = 0;
+        virtual void write(std::string const& path);
+
+        virtual void encode(Matrix decodedImage) = 0;
+
+        virtual Matrix decode() const = 0;
 
     private:
+
+        RawData data;
 
 
     };

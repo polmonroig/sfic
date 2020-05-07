@@ -9,14 +9,14 @@ using namespace sfic;
 
 Image::Image(std::string const& path){
     format = stringToFormat(getExtension(path));
-    //data.read(path);
+    format->read(path);
 }
 
 
 
 
 void Image::save(std::string const& path) const{
-    // data.write(path);
+    format->write(path);
 }
 
 

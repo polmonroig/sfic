@@ -35,10 +35,6 @@ void RawData::write(std::string const& path) const{
 }
 
 
-void RawData::convert(FormatContainer const& newFormat){
-
-    format = newFormat;
-}
 
 
 /************************
