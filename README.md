@@ -9,4 +9,4 @@ it is build with usability and speed in mind.
 There are two modes, as a C++ library or as a program
 
 # Supported Formats
-* PPM
+* PPM (P3, P6)

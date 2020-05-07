@@ -21,6 +21,9 @@ namespace sfic{
 
         Matrix(MatSize nRows, MatSize nCols, MatSize nChannels);
 
+        void toYCbCr();
+
+
         inline void set(MatSize i, MatSize j, ChannelType const& channel);
 
         inline MatSize width() const;

@@ -29,7 +29,8 @@ void Image::convert(FormatContainer const& newFormat){
 
 FormatContainer Image::stringToFormat(std::string const& formatName){
     if(formatName == "PPM")return std::make_shared<PPMFormat>();
-    else return std::make_shared<PPMFormat>();
+    else if(formatName == "PNG") return std::make_shared<PNGFormat>();
+    else return std::make_shared<JPEGFormat>();
 }
 
 /************************

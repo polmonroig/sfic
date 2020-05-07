@@ -12,7 +12,24 @@ Matrix::Matrix(MatSize nRows, MatSize nCols, MatSize nChannels){
     cols = nCols;
     channels = nChannels;
     content = MatType(nRows, RowType(nCols, ChannelType(nChannels)));
-    
+
+}
+
+
+void Matrix::toYCbCr(){
+    // PRE: channels.size() >= 3 (i.e. rgb)
+    for(unsigned int i = 0; i < rows; ++i){
+        for(unsigned int j = 0; j < cols; ++j){
+            auto colors = content[i][j];
+            float y = 0.299 * colors[0] + 0.587 * colors[1] + 0.114 * colors[2];
+            float cb = -0.169 * colors[0] - 0.331 * colors[1] + 0.5 * colors[2];
+            float cr = 0.5 * colors[0] - 0.419 * colors[1] - 0.081 * colors[2];
+            colors[0] = y;
+            colors[1] = cb;
+            colors[2] = cr;
+
+        }
+    }
 }
 
 

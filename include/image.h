@@ -6,6 +6,7 @@
 #include "format.h"
 #include "jpeg_format.h"
 #include "ppm_format.h"
+#include "png_format.h"
 
 namespace sfic{
 
@@ -30,7 +31,7 @@ namespace sfic{
 
         static std::string getExtension(std::string const& path);
 
-        static std::string toUpperReverse(std::string const& s); 
+        static std::string toUpperReverse(std::string const& s);
 
         FormatContainer format;
 
