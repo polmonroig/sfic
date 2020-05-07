@@ -30,7 +30,7 @@ namespace sfic{
         PPMType readType();
 
 
-        MatSize readSize();
+        inline MatSize readSize();
 
         Matrix readP3(MatSize width, MatSize height);
 

@@ -21,6 +21,13 @@ namespace sfic{
 
         Matrix(MatSize nRows, MatSize nCols, MatSize nChannels);
 
+        inline void set(MatSize i, MatSize j, ChannelType const& channel);
+
+        inline MatSize width() const;
+
+        inline MatSize height() const;
+
+        inline ChannelType get(MatSize i, MatSize j) const;
 
     private:
 
@@ -31,6 +38,27 @@ namespace sfic{
 
 
     };
+
+    /************************
+       INLINE DEFINITIONS
+    *************************/
+
+    inline MatSize Matrix::width() const{
+        return cols;
+    }
+
+    inline MatSize Matrix::height() const{
+        return rows;
+    }
+
+    inline ChannelType Matrix::get(MatSize i, MatSize j) const{
+        return content[i][j];
+    }
+
+
+    inline void Matrix::set(MatSize i, MatSize j, ChannelType const& channel){
+        content[i][j] = channel;
+    }
 
 }
 
