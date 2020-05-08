@@ -12,7 +12,7 @@ namespace sfic{
 
         Matrix decode() override;
 
-        void encode(Matrix decodedImage) override;
+        void encode(Matrix& decodedImage) override;
 
     private:
 

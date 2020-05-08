@@ -11,10 +11,10 @@ Matrix PNGFormat::decode(){
     return Matrix();
 }
 
-void PNGFormat::encode(Matrix decodedImage){
+void PNGFormat::encode(Matrix& decodedImage){
     decodedImage = decodedImage;
-    filtering();
-    deflate();
+    filtering(decodedImage);
+    deflate(decodedImage);
     data.push("PNG FORMAT");
 
 }
@@ -27,10 +27,10 @@ void PNGFormat::encode(Matrix decodedImage){
 *************************/
 
 
-void PNGFormat::filtering(){
-
+void PNGFormat::filtering(Matrix& decodedImage ){
+    decodedImage = decodedImage;
 }
 
-void PNGFormat::deflate(){
-
+void PNGFormat::deflate(Matrix& decodedImage ){
+    auto data = decodedImage.toRawData();
 }

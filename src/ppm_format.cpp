@@ -27,7 +27,7 @@ Matrix PPMFormat::decode(){
 
 }
 
-void PPMFormat::encode(Matrix decodedImage){
+void PPMFormat::encode(Matrix& decodedImage){
     auto width = decodedImage.width();
     auto height = decodedImage.height();
     data.push("P6\n");

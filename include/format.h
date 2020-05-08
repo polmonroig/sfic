@@ -21,7 +21,7 @@ namespace sfic{
 
         virtual void write(std::string const& path);
 
-        virtual void encode(Matrix decodedImage) = 0;
+        virtual void encode(Matrix& decodedImage) = 0;
 
         virtual Matrix decode() = 0;
 

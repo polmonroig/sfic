@@ -11,7 +11,7 @@ Matrix JPEGFormat::decode(){
     return Matrix();
 }
 
-void JPEGFormat::encode(Matrix decodedImage){
+void JPEGFormat::encode(Matrix& decodedImage){
     std::cout << "Encoding" << std::endl;
     decodedImage.toYCbCr();
 
