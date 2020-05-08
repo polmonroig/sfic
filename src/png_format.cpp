@@ -13,6 +13,9 @@ Matrix PNGFormat::decode(){
 
 void PNGFormat::encode(Matrix decodedImage){
     decodedImage = decodedImage;
+    filtering();
+    deflate();
+    data.push("PNG FORMAT");
 
 }
 
@@ -22,3 +25,12 @@ void PNGFormat::encode(Matrix decodedImage){
 /************************
         PRIVATE
 *************************/
+
+
+void PNGFormat::filtering(){
+
+}
+
+void PNGFormat::deflate(){
+
+}

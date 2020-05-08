@@ -16,6 +16,9 @@ namespace sfic{
 
     private:
 
+        void filtering();
+
+        void deflate(); 
 
     };
 

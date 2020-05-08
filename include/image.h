@@ -31,7 +31,7 @@ namespace sfic{
 
         static std::string getExtension(std::string const& path);
 
-        static std::string toUpperReverse(std::string const& s);
+        static std::string reverse(std::string const& s);
 
         FormatContainer format;
 
