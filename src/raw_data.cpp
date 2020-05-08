@@ -35,6 +35,18 @@ void RawData::write(std::string const& path) const{
 }
 
 
+void RawData::push(std::string const& value){
+    for(auto const& v : value)bytes.push_back(v);
+}
+
+void RawData::push(ByteType value){
+    bytes.push_back(value);
+}
+
+void RawData::reserve(unsigned int size){
+    bytes.reserve(size); 
+}
+
 
 
 /************************

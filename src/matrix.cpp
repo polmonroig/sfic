@@ -7,7 +7,7 @@ using namespace sfic;
 *************************/
 
 
-Matrix::Matrix(MatSize nRows, MatSize nCols, MatSize nChannels){
+Matrix::Matrix(MatInt nRows, MatInt nCols, MatInt nChannels){
     rows = nRows;
     cols = nCols;
     channels = nChannels;
@@ -30,6 +30,19 @@ void Matrix::toYCbCr(){
 
         }
     }
+}
+
+RawData Matrix::toRawData() const{
+    RawData data;
+    data.reserve(rows * cols * channels);
+    for(auto const& row : content){
+        for(auto const& col : row){
+            for(auto const& channel : col){
+                data.push(int(channel * 255));
+            }
+        }
+    }
+    return data; 
 }
 
 

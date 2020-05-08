@@ -30,16 +30,16 @@ namespace sfic{
         PPMType readType();
 
 
-        inline MatSize readSize();
+        inline MatInt readSize();
 
         inline ByteType readByte();
 
-        Matrix readP3(MatSize maxValue, MatSize width, MatSize height);
+        Matrix readP3(MatInt maxValue, MatInt width, MatInt height);
 
-        Matrix readP6(MatSize maxValue, MatSize width, MatSize height);
+        Matrix readP6(MatInt maxValue, MatInt width, MatInt height);
 
 
-        static const MatSize N_CHANNELS = 3;
+        static const MatInt N_CHANNELS = 3;
 
     };
 

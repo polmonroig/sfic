@@ -29,7 +29,7 @@ namespace sfic{
 
         RawData data;
 
-        MatSize iterator;
+        MatInt iterator;
 
 
     };

@@ -19,13 +19,19 @@ namespace sfic{
 
         void write(std::string const& path) const;
 
+        void push(std::string const& value);
+
+        void push(ByteType value);
+
+        void reserve(unsigned int size);
+
         inline ByteType get(unsigned int pos) const;
 
         inline unsigned int size() const;
 
-        inline void push(std::string const& value);
 
-        inline void push(ByteType value);
+
+
 
 
     private:
@@ -41,9 +47,8 @@ namespace sfic{
        INLINE DEFINITIONS
     *************************/
 
-    inline void RawData::push(std::string const& value){
-        for(auto const& v : value)bytes.push_back(v);
-    }
+
+
 
     inline ByteType RawData::get(unsigned int pos) const{
         return bytes[pos];
@@ -53,9 +58,7 @@ namespace sfic{
         return bytes.size();
     }
 
-    inline void RawData::push(ByteType value){
-        bytes.push_back(value); 
-    }
+
 
 }
 

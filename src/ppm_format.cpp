@@ -89,7 +89,7 @@ PPMType PPMFormat::readType(){
     return PPMType::P3;
 }
 
-inline MatSize PPMFormat::readSize(){
+inline MatInt PPMFormat::readSize(){
     std::string value = "";
     while(iterator < data.size()){
         bool found = false;
@@ -107,7 +107,7 @@ inline ByteType PPMFormat::readByte(){
     return data.get(iterator++);
 }
 
-Matrix PPMFormat::readP3(MatSize maxValue, MatSize width, MatSize height){
+Matrix PPMFormat::readP3(MatInt maxValue, MatInt width, MatInt height){
     Matrix image(height, width, N_CHANNELS);
     unsigned int i, j;
     i = j = 0; // matrix iterators
@@ -128,7 +128,7 @@ Matrix PPMFormat::readP3(MatSize maxValue, MatSize width, MatSize height){
     return image;
 }
 
-Matrix PPMFormat::readP6(MatSize maxValue, MatSize width, MatSize height){
+Matrix PPMFormat::readP6(MatInt maxValue, MatInt width, MatInt height){
     Matrix image(height, width, N_CHANNELS);
     unsigned int i, j;
     i = j = 0; // matrix iterators

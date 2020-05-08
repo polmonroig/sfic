@@ -3,13 +3,15 @@
 
 #include <vector>
 
+#include "raw_data.h"
+
 namespace sfic{
 
     // typdefintions
     typedef std::vector<float> ChannelType;
     typedef std::vector<ChannelType> RowType;
     typedef std::vector<RowType> MatType;
-    typedef unsigned int MatSize;
+    typedef unsigned int MatInt;
 
 
 
@@ -19,23 +21,24 @@ namespace sfic{
 
         Matrix() = default;
 
-        Matrix(MatSize nRows, MatSize nCols, MatSize nChannels);
+        Matrix(MatInt nRows, MatInt nCols, MatInt nChannels);
 
         void toYCbCr();
 
+        RawData toRawData() const; 
 
-        inline void set(MatSize i, MatSize j, ChannelType const& channel);
+        inline void set(MatInt i, MatInt j, ChannelType const& channel);
 
-        inline MatSize width() const;
+        inline MatInt width() const;
 
-        inline MatSize height() const;
+        inline MatInt height() const;
 
-        inline ChannelType get(MatSize i, MatSize j) const;
+        inline ChannelType get(MatInt i, MatInt j) const;
 
     private:
 
 
-        MatSize rows, cols, channels;
+        MatInt rows, cols, channels;
 
         MatType content;
 
@@ -46,20 +49,20 @@ namespace sfic{
        INLINE DEFINITIONS
     *************************/
 
-    inline MatSize Matrix::width() const{
+    inline MatInt Matrix::width() const{
         return cols;
     }
 
-    inline MatSize Matrix::height() const{
+    inline MatInt Matrix::height() const{
         return rows;
     }
 
-    inline ChannelType Matrix::get(MatSize i, MatSize j) const{
+    inline ChannelType Matrix::get(MatInt i, MatInt j) const{
         return content[i][j];
     }
 
 
-    inline void Matrix::set(MatSize i, MatSize j, ChannelType const& channel){
+    inline void Matrix::set(MatInt i, MatInt j, ChannelType const& channel){
         content[i][j] = channel;
     }
 

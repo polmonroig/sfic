@@ -5,7 +5,8 @@ GCC = g++ $(OPT) $(STD) $(WARN)
 PROGRAM = sfic
 
 FORMATS = ppm_format jpeg_format png_format
-FILES = format image $(FORMATS) matrix raw_data
+UTILS = error_management
+FILES = $(UTILS) format image $(FORMATS) matrix raw_data
 INCLUDE = $(addprefix include/,$(addsuffix .h,$(FILES)))
 MAIN = src/sfic.cpp
 SRC = $(addprefix src/,$(addsuffix .cpp,$(FILES))) $(MAIN)
