@@ -15,7 +15,6 @@ void PNGFormat::encode(Matrix& decodedImage){
     decodedImage = decodedImage;
     filtering(decodedImage);
     deflate(decodedImage);
-    data.push("PNG FORMAT");
 
 }
 
@@ -31,6 +30,10 @@ void PNGFormat::filtering(Matrix& decodedImage ){
     decodedImage = decodedImage;
 }
 
-void PNGFormat::deflate(Matrix& decodedImage ){
-    auto data = decodedImage.toRawData();
+void PNGFormat::deflate(Matrix& decodedImage){
+    data = decodedImage.toRawData();
+    LZ77 compressor;
+    data = compressor.encode(data); 
+
+
 }

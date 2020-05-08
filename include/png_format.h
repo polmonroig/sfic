@@ -3,6 +3,7 @@
 
 #include "matrix.h"
 #include "format.h"
+#include "lz77_compression.h"
 
 namespace sfic{
 
