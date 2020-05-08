@@ -19,8 +19,8 @@ namespace sfic{
 
         void shift(RawData const& data, unsigned int quantity);
 
-        static const unsigned int SB_SIZE = 4;
-        static const unsigned int LAB_SIZE = 4;
+        static const unsigned int SB_SIZE = 256;
+        static const unsigned int LAB_SIZE = 512;
 
         unsigned int ahead_size;
 
