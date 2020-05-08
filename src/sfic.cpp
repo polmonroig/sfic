@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <exception>
 
 #include "../include/image.h"
 #include "../include/jpeg_format.h"
@@ -20,13 +20,21 @@ int main(int argc, char* argv[]){
         usage();
         return -1;
     }
-    // create image
-    sfic::Image image(argv[1]);
-    // convert
-    sfic::FormatContainer newFormat = sfic::Image::stringToFormat(argv[3]);
-    image.convert(newFormat);
-    // save to file
-    image.save(argv[2]);
+
+    try{
+        // create image
+        sfic::Image image(argv[1]);
+        // convert
+        sfic::FormatContainer newFormat = sfic::Image::stringToFormat(argv[3]);
+        image.convert(newFormat);
+        // save to file
+        image.save(argv[2]);
+    }
+    catch(std::exception& e){
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
+
 
 
     return 0;

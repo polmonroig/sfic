@@ -9,7 +9,7 @@ using namespace sfic;
 
 void RawData::read(std::string const& path){
     std::ifstream file (path, std::ifstream::binary);
-    if(!file.is_open())std::cerr << "Couldn't open file " << path << std::endl;
+    if(!file.is_open())throw std::invalid_argument("I/O Error: sfic::RawData::read " + path);
     file.seekg (0, file.end);
     int length = file.tellg();
     file.seekg(0, file.beg);
@@ -26,7 +26,7 @@ void RawData::read(std::string const& path){
 
 void RawData::write(std::string const& path) const{
     std::ofstream file (path, std::ifstream::out);
-    if(!file.is_open())std::cerr << "Couldn't open file " << path << std::endl;
+    if(!file.is_open())throw std::invalid_argument("I/O Error: sfic::RawData::write " + path);
     for(unsigned int i = 0; i < bytes.size(); ++i){
         file << bytes[i];
     }
@@ -44,7 +44,7 @@ void RawData::push(ByteType value){
 }
 
 void RawData::reserve(unsigned int size){
-    bytes.reserve(size); 
+    bytes.reserve(size);
 }
 
 

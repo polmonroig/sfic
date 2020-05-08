@@ -2,6 +2,7 @@
 #define  RAW_DATA_H
 
 #include <vector>
+#include <exception>
 #include <string>
 #include <fstream>
 #include <iostream>
