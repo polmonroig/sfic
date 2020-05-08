@@ -17,11 +17,12 @@ namespace sfic{
 
         bool search(RawData const& data);
 
-        void shift(unsigned int quantity);
+        void shift(RawData const& data, unsigned int quantity);
 
         static const unsigned int SB_SIZE = 4;
         static const unsigned int LAB_SIZE = 4;
 
+        unsigned int ahead_size;
 
         unsigned int match_length;
 
