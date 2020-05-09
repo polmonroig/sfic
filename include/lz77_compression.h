@@ -23,7 +23,7 @@ namespace sfic{
 
         unsigned int ahead_size;
         unsigned int match_length;
-        
+
         std::array<ByteType, BUFFER_SIZE> searchBuffer;
 
 

@@ -24,6 +24,9 @@ RawData LZ77::encode(RawData const& data){
             output.push(')');
         }
     }
+
+    std::cout << "LZ77 compression ratio: " << (float(data.size()) / output.size()) * 100 << std::endl;
+
     return output;
 }
 

@@ -14,6 +14,9 @@ OBJECT = $(addprefix build/,$(addsuffix .o,$(FILES)))
 
 all: sfic
 
+install: sfic
+	mv sfic /usr/local/bin/
+
 
 sfic: $(INCLUDE) $(SRC)
 	$(GCC) -o $(PROGRAM) $(SRC)
