@@ -4,20 +4,45 @@ using namespace sfic;
 
 RawData HuffmanCompression::encode(RawData const& data){
     // create frequency table
-    // auto table = getFrequencyTable();
+    RawData output;
+    auto table = getFrequencyTable(data);
 
     // create trees
     std::priority_queue<HuffmanTree> minHeap;
-    // for(auto const& letter : table)
-    //  minHeap.push(HuffmanTree(letter.name, letter.freq));
+    for(auto const& letter : table)
+        minHeap.push(HuffmanTree(letter.first, letter.second));
     // join trees
-    // while(minHeap.size() > 1){
-    //     HuffmanTree min1 = minHeap.top();
-    //     minHeap.pop();
-    //     HuffmanTree min2 = minHeap.top();
-    //     minHeap.pop();
-    //     minHeap.push(HuffmanTree(min1, min2));
-    // }
+    while(minHeap.size() > 1){
+        HuffmanTree min1 = minHeap.top();
+        minHeap.pop();
+        HuffmanTree min2 = minHeap.top();
+        minHeap.pop();
+        minHeap.push(HuffmanTree(min1, min2));
+    }
 
-    return data;
+    auto tree = minHeap.top();
+    auto codes = tree.getTable();
+    for(unsigned int i = 0; i < data.size(); ++i){
+        output.push(codes[data.get(i)]); // encode each character in the data
+    }
+
+
+    return output;
+}
+
+
+FrequencyTableType HuffmanCompression::getFrequencyTable(RawData const& data){
+    FrequencyTableType table;
+    for(unsigned int i = 0; i < data.size(); ++i){
+        auto iterator = table.find(data.get(i));
+        if(iterator == table.end()){
+            table.insert(iterator, {data.get(i), 1});
+        }
+        else{
+            iterator->second++;
+        }
+
+    }
+
+    return table;
 }

@@ -19,15 +19,12 @@ namespace sfic{
 
         void shift(RawData const& data, unsigned int quantity);
 
-        static const unsigned int SB_SIZE = 256;
-        static const unsigned int LAB_SIZE = 512;
+        static const unsigned int BUFFER_SIZE = 256;
 
         unsigned int ahead_size;
-
         unsigned int match_length;
-
-        std::array<ByteType, LAB_SIZE> lookAheadBuffer;
-        std::array<ByteType, SB_SIZE> searchBuffer;
+        
+        std::array<ByteType, BUFFER_SIZE> searchBuffer;
 
 
     };

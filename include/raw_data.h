@@ -8,6 +8,7 @@
 #include <iostream>
 
 
+
 namespace sfic{
 
     typedef unsigned char ByteType;
@@ -26,7 +27,7 @@ namespace sfic{
 
         void reserve(unsigned int size);
 
-        void concatenate(RawData const& other); 
+        void concatenate(RawData const& other);
 
         inline ByteType get(unsigned int pos) const;
 

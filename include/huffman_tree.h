@@ -2,10 +2,15 @@
 #define  HUFFMAN_TREE_H
 
 #include <memory>
+#include <unordered_map>
+#include <string>
 
 #include "raw_data.h"
 
 namespace sfic{
+
+    typedef std::string BinaryCodeType;
+    typedef std::unordered_map<ByteType, BinaryCodeType> HuffmanCodesTable;
 
     class HuffmanTree{
 
@@ -19,7 +24,12 @@ namespace sfic{
 
         bool operator<(HuffmanTree const& other) const;
 
+        HuffmanCodesTable getTable() const;
+
     private:
+
+
+        static void getBinaryCode(std::shared_ptr<HuffmanTree> const& tree, HuffmanCodesTable& table, BinaryCodeType const& code);
 
         static const int NULL_VALUE = -1;
 
@@ -29,7 +39,7 @@ namespace sfic{
         ByteType value;
         unsigned int weight;
         unsigned int size;
-        bool isLeaf; 
+        bool isLeaf;
 
     };
 

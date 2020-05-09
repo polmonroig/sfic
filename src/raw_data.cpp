@@ -35,6 +35,7 @@ void RawData::write(std::string const& path) const{
 }
 
 
+
 void RawData::push(std::string const& value){
     for(auto const& v : value)bytes.push_back(v);
 }
@@ -51,7 +52,7 @@ void RawData::reserve(unsigned int size){
 void RawData::concatenate(RawData const& other){
     bytes.reserve(bytes.size() + other.size()); // verify if correct
     for(auto const& value : other.bytes){
-        bytes.push_back(value); 
+        bytes.push_back(value);
     }
 
 }
