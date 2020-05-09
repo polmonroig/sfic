@@ -26,9 +26,13 @@ namespace sfic{
 
         void reserve(unsigned int size);
 
+        void concatenate(RawData const& other); 
+
         inline ByteType get(unsigned int pos) const;
 
         inline unsigned int size() const;
+
+
 
 
 

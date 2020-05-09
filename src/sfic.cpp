@@ -22,13 +22,19 @@ int main(int argc, char* argv[]){
     }
 
     try{
+        sfic::RawData data;
+        data.read(argv[1]);
+        sfic::LZ77 encoder;
+        data = encoder.encode(data);
+        data.write(argv[2]);
+
         // create image
-        sfic::Image image(argv[1]);
+        /*sfic::Image image(argv[1]);
         // convert
         sfic::FormatContainer newFormat = sfic::Image::stringToFormat(argv[3]);
         image.convert(newFormat);
         // save to file
-        image.save(argv[2]);
+        image.save(argv[2]);*/
     }
     catch(std::exception& e){
         std::cerr << e.what() << std::endl;

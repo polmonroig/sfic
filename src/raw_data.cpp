@@ -48,6 +48,14 @@ void RawData::reserve(unsigned int size){
 }
 
 
+void RawData::concatenate(RawData const& other){
+    bytes.reserve(bytes.size() + other.size()); // verify if correct
+    for(auto const& value : other.bytes){
+        bytes.push_back(value); 
+    }
+
+}
+
 
 /************************
         PRIVATE

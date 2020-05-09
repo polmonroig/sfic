@@ -4,9 +4,10 @@ using namespace sfic;
 
 RawData LZ77::encode(RawData const& data){
     RawData output;
+    auto totalSize = std::min(LAB_SIZE, data.size());
     ahead_size = 0;
     // setup
-    for(unsigned int i = 0; i < LAB_SIZE; ++i)
+    for(unsigned int i = 0; i < totalSize; ++i)
         lookAheadBuffer[i] = data.get(i);
 
     // main algorithm
@@ -30,6 +31,7 @@ RawData LZ77::encode(RawData const& data){
 // pre: quantity <= SB_SIZE && quantity <= LAB_SIZE
 void LZ77::shift(RawData const& data, unsigned int quantity){
     // shift search buffer elements
+    std::cout << "quantity " << quantity << std::endl;
     for(unsigned int i = quantity; i < SB_SIZE; ++i)
         searchBuffer[i - quantity] = searchBuffer[i];
     // move elements betweeen buffers

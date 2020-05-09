@@ -16,6 +16,8 @@ void PNGFormat::encode(Matrix& decodedImage){
     filtering(decodedImage);
     deflate(decodedImage);
 
+
+
 }
 
 
@@ -37,6 +39,6 @@ void PNGFormat::deflate(Matrix& decodedImage){
     data = compressor.encode(data);
     // next compress further with huffman
     HuffmanCompression huffman;
-    data = huffman.encode(data); 
+    data = huffman.encode(data);
 
 }
