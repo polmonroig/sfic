@@ -32,8 +32,11 @@ void PNGFormat::filtering(Matrix& decodedImage ){
 
 void PNGFormat::deflate(Matrix& decodedImage){
     data = decodedImage.toRawData();
+    // first lz77 compression
     LZ77 compressor;
-    data = compressor.encode(data); 
-
+    data = compressor.encode(data);
+    // next compress further with huffman
+    HuffmanCompression huffman;
+    data = huffman.encode(data); 
 
 }

@@ -38,11 +38,11 @@ RawData Matrix::toRawData() const{
     for(auto const& row : content){
         for(auto const& col : row){
             for(auto const& channel : col){
-                data.push(int(channel * 255));
+                data.push(char(channel * 255));
             }
         }
     }
-    return data; 
+    return data;
 }
 
 
