@@ -1,6 +1,8 @@
 #ifndef PNG_FORMAT_H
 #define  PNG_FORMAT_H
 
+#include <array>
+
 #include "matrix.h"
 #include "format.h"
 #include "huffman_compression.h"
@@ -18,9 +20,15 @@ namespace sfic{
 
     private:
 
+        void readSignature();
+
         void filtering(Matrix& decodedImage );
 
         void deflate(Matrix& decodedImage );
+
+        // every png file contains this signature
+        static const int SIGNATURE_SIZE = 8;
+        constexpr static ByteType signature[SIGNATURE_SIZE] = {  137, 80, 78, 71, 13, 10, 26, 10};
 
     };
 

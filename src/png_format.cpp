@@ -3,11 +3,17 @@
 
 using namespace sfic;
 
+// STATIC
+
+
+
 /************************
         PUBLIC
 *************************/
 
 Matrix PNGFormat::decode(){
+    readSignature();
+
     return Matrix();
 }
 
@@ -26,6 +32,17 @@ void PNGFormat::encode(Matrix& decodedImage){
 /************************
         PRIVATE
 *************************/
+
+void PNGFormat::readSignature(){
+    iterator = 0;
+    while(iterator < SIGNATURE_SIZE){
+        if(data.get(iterator) != signature[iterator]){
+            std::cerr << "Throw format exception" << std::endl;
+        }
+        ++iterator;
+    }
+
+}
 
 
 void PNGFormat::filtering(Matrix& decodedImage ){
