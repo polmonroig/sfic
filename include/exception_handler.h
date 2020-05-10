@@ -9,6 +9,7 @@ image manipulation can cause
 *************************/
 
 #include <exception>
+#include <string>
 
 namespace sfic{
 
@@ -25,6 +26,9 @@ namespace sfic{
         IncorrectArgument(std::string const& arg);
 
         char const * what() const throw();
+
+    private:
+        std::string text;
     };
 
     // needs to be thrown when the format of the image that
@@ -36,6 +40,22 @@ namespace sfic{
         IncorrectFormat(std::string const& formatName);
 
         char const * what() const throw();
+
+    private:
+        std::string text;
+    };
+
+    // needs to be thrown when an i/o error ocurrs
+    class ErrorInputOutput : public std::exception{
+
+    public:
+
+        ErrorInputOutput(std::string const& formatName);
+
+        char const * what() const throw();
+
+    private:
+        std::string text;
     };
 
 

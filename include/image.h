@@ -2,7 +2,7 @@
 #define  IMAGE_H
 
 #include <string>
-#include <exception>
+#include "exception_handler.h"
 
 #include "format.h"
 #include "jpeg_format.h"

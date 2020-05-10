@@ -31,7 +31,7 @@ FormatContainer Image::stringToFormat(std::string const& formatName){
     if(formatName == "ppm")return std::make_shared<PPMFormat>();
     else if(formatName == "png") return std::make_shared<PNGFormat>();
     else if(formatName == "jpeg")return std::make_shared<JPEGFormat>();
-    else throw std::invalid_argument("Invalid argument: sfic::Image::stringToFormat " + formatName);
+    else throw IncorrectArgument("Invalid argument: sfic::Image::stringToFormat " + formatName);
 }
 
 /************************
