@@ -15,4 +15,4 @@ There are two modes, as a C++ library or as a program
 
 # Supported Formats
 * PPM (P3, P6)
-* PNG
+* PNG (in progress)

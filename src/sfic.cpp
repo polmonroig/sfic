@@ -31,6 +31,9 @@ int main(int argc, char* argv[]){
         // save to file
         image.save(argv[2]);
     }
+    catch(sfic::ErrorInputOutput& e){
+        std::cerr << e.what() << std::endl;
+    }
     catch(sfic::IncorrectArgument& e){
         std::cerr << e.what() << std::endl;
         return EXIT_FAILURE;

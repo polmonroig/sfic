@@ -3,6 +3,7 @@
 
 #include <array>
 
+#include "exception_handler.h"
 #include "matrix.h"
 #include "format.h"
 #include "huffman_compression.h"

@@ -35,9 +35,10 @@ void PNGFormat::encode(Matrix& decodedImage){
 
 void PNGFormat::readSignature(){
     iterator = 0;
+    if(data.size() == 0)throw ErrorInputOutput("Error: Input file is empty");
     while(iterator < SIGNATURE_SIZE){
         if(data.get(iterator) != signature[iterator]){
-            std::cerr << "Throw format exception" << std::endl;
+            throw IncorrectFormat("Error while reading PNG, signature does not match");
         }
         ++iterator;
     }
