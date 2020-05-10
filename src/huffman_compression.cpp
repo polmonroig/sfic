@@ -22,8 +22,11 @@ RawData HuffmanCompression::encode(RawData const& data){
 
     auto tree = minHeap.top();
     auto codes = tree.getTable();
+    BinaryCodeType stream;
     for(unsigned int i = 0; i < data.size(); ++i){
-        output.push(codes[data.get(i)]); // encode each character in the data
+        stream += codes[data.get(i)];
+        if(stream.size() >= 8)stream = "";
+        // output.push(); // encode each character in the data
     }
 
 

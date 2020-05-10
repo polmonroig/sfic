@@ -8,7 +8,7 @@ different compression algorithms such as Huffman Encoding and LZ77.
 # Installation
 `
 make
-make install 
+make install
 `
 # Usage
 There are two modes, as a C++ library or as a program
