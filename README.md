@@ -8,6 +8,7 @@ different compression algorithms such as Huffman Encoding and LZ77.
 # Installation
 `
 make
+
 make install
 `
 # Usage

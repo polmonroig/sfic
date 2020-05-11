@@ -36,8 +36,8 @@ namespace sfic{
 
         static const unsigned int BUFFER_SIZE = 256;
 
-        unsigned int ahead_size;
-        unsigned int match_length;
+        unsigned int aheadSize;
+        unsigned int matchLength;
 
         std::array<ByteType, BUFFER_SIZE> searchBuffer;
 

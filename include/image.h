@@ -26,6 +26,11 @@ limitations under the License.
 
 namespace sfic{
 
+    /**
+     * The image class is the main component of SFIC, it
+     * enables the user to interact with file images and
+     * change their format.
+     **/
     class Image{
 
     public:

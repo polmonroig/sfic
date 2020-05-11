@@ -40,9 +40,14 @@ RawData HuffmanCompression::encode(RawData const& data){
     BinaryCodeType stream;
     for(unsigned int i = 0; i < data.size(); ++i){
         stream += codes[data.get(i)];
-        if(stream.size() >= 8)stream = "";
-        // output.push(); // encode each character in the data
     }
+
+    // push stream to output
+    for(int i = 0; i < stream.size() - 8; i += 8){
+        output.push(std::stoi(stream.substr(i, 8),0 , 2));
+    }
+    std::cout << "stream.size()/8::" << stream.size() / 8 << std::endl;
+    std::cout << "Hufffman compression ratio: " << (float(data.size()) / output.size()) * 100 << std::endl;
 
 
     return output;

@@ -19,23 +19,23 @@ using namespace sfic;
 
 RawData LZ77::encode(RawData const& data){
     RawData output;
-    ahead_size = 0;
+    aheadSize = 0;
     // setup
 
     // main algorithm
-    while(ahead_size < data.size()){
+    while(aheadSize < data.size()){
         bool match = search(data);// 1. search
         if(match){
-            ahead_size += match_length;
-            shift(data, match_length); // shift
-            output.push("(0," + std::to_string(match_length));
-            output.push(data.get(ahead_size));
+            aheadSize += matchLength;
+            shift(data, matchLength); // shift
+            output.push("(0," + std::to_string(matchLength));
+            output.push(data.get(aheadSize));
             output.push(')');
         }else{
-            ++ahead_size;
+            ++aheadSize;
             shift(data, 1); // no match => add a single character
             output.push("(0,0,");
-            output.push(data.get(ahead_size));
+            output.push(data.get(aheadSize));
             output.push(')');
         }
     }
@@ -52,19 +52,19 @@ void LZ77::shift(RawData const& data, unsigned int quantity){
         searchBuffer[i - quantity] = searchBuffer[i];
     // move elements betweeen buffers
     for(unsigned int i = 0; i < quantity; ++i)
-        searchBuffer[BUFFER_SIZE - quantity + i] = data.get(i + ahead_size);
+        searchBuffer[BUFFER_SIZE - quantity + i] = data.get(i + aheadSize);
 
 }
 
 bool LZ77::search(RawData const& data){
-    int i = std::max(0, int(BUFFER_SIZE) - int(ahead_size));
+    int i = std::max(0, int(BUFFER_SIZE) - int(aheadSize));
     bool found = false;
-    while(i < BUFFER_SIZE && searchBuffer[i] != data.get(ahead_size))++i;
-    match_length = 0;
-    while(i < BUFFER_SIZE && searchBuffer[i] == data.get(ahead_size + match_length)){
+    while(i < BUFFER_SIZE && searchBuffer[i] != data.get(aheadSize))++i;
+    matchLength = 0;
+    while(i < BUFFER_SIZE && searchBuffer[i] == data.get(aheadSize + matchLength)){
         found = true;
         ++i;
-        ++match_length;
+        ++matchLength;
     }
     return found;
 }

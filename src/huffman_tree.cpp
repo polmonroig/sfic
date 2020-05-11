@@ -67,6 +67,6 @@ void HuffmanTree::getBinaryCode(std::shared_ptr<HuffmanTree> const& tree, Huffma
 
 
 bool HuffmanTree::operator<(HuffmanTree const& other) const{
-    if(weight != other.weight)return weight < other.weight;
-    else return size < other.size;
+    if(weight != other.weight)return weight > other.weight;
+    else return size > other.size;
 }
