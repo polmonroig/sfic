@@ -26,17 +26,19 @@ RawData LZ77::encode(RawData const& data){
     while(aheadSize < data.size()){
         bool match = search(data);// 1. search
         if(match){
-            aheadSize += matchLength;
             shift(data, matchLength); // shift
-            output.push("(0," + std::to_string(matchLength));
+            output.push("("+ std::to_string(offset) +"," + std::to_string(matchLength) + ",");
+            aheadSize += matchLength;
             output.push(data.get(aheadSize));
             output.push(')');
+
         }else{
-            ++aheadSize;
             shift(data, 1); // no match => add a single character
             output.push("(0,0,");
+
             output.push(data.get(aheadSize));
             output.push(')');
+            ++aheadSize;
         }
     }
 
@@ -45,26 +47,50 @@ RawData LZ77::encode(RawData const& data){
     return output;
 }
 
-// pre: quantity <= SB_SIZE && quantity <= LAB_SIZE
+// pre: quantity <= BUFFER_SIZE
 void LZ77::shift(RawData const& data, unsigned int quantity){
     // shift search buffer elements
-    for(unsigned int i = quantity; i < BUFFER_SIZE; ++i)
-        searchBuffer[i - quantity] = searchBuffer[i];
+    // min is needed when search buffer is not full
+    unsigned int size = std::min(BUFFER_SIZE, aheadSize);
+    for(int i = size - quantity; i >= 0; --i)
+        searchBuffer[i + quantity] = searchBuffer[i];
+
     // move elements betweeen buffers
-    for(unsigned int i = 0; i < quantity; ++i)
-        searchBuffer[BUFFER_SIZE - quantity + i] = data.get(i + aheadSize);
+    quantity--;
+    for(int i = quantity; i >= 0; --i)
+        searchBuffer[i] = data.get(aheadSize + quantity - i);
 
 }
 
 bool LZ77::search(RawData const& data){
-    int i = std::max(0, int(BUFFER_SIZE) - int(aheadSize));
     bool found = false;
-    while(i < BUFFER_SIZE && searchBuffer[i] != data.get(aheadSize))++i;
-    matchLength = 0;
-    while(i < BUFFER_SIZE && searchBuffer[i] == data.get(aheadSize + matchLength)){
-        found = true;
-        ++i;
-        ++matchLength;
+    // min is needed when search buffer is not full
+    unsigned int size = std::min(BUFFER_SIZE, aheadSize);
+    matchLength = 1;
+    offset = 1;
+    for(unsigned int i = 0; i < size; ++i){
+        if(searchBuffer[i] == data.get(aheadSize)){
+            found = true;
+            auto length = searchFromIndex(data, i - 1);
+
+            // find sequence with max length
+            if(length > matchLength){
+                offset = i;
+                matchLength = length;
+            }
+        }
     }
     return found;
+}
+
+
+unsigned int LZ77::searchFromIndex(RawData const& data, int i) const{
+
+    unsigned int length = 1;
+    auto size = i + 1;
+    while(i >= 0 && searchBuffer[i] == data.get(size - i + aheadSize)){
+        --i;
+        length++;
+    }
+    return length;
 }

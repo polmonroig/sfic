@@ -34,9 +34,12 @@ namespace sfic{
 
         void shift(RawData const& data, unsigned int quantity);
 
+        unsigned int searchFromIndex(RawData const& data, int i) const;
+
         static const unsigned int BUFFER_SIZE = 256;
 
         unsigned int aheadSize;
+        unsigned int offset;
         unsigned int matchLength;
 
         std::array<ByteType, BUFFER_SIZE> searchBuffer;

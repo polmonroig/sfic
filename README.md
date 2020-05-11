@@ -5,10 +5,7 @@ but with speed in mind. As part of the image compression, it also includes
 different compression algorithms such as Huffman Encoding and LZ77. The best characteristic
 of this library is that it is extremely modular, if you only need a compression algorithm
 just install the one you need, it is also really lightweight and it does not require
-external libraries. 
-
-
-# Installation
+external libraries.  Installation
 `
 make
 
