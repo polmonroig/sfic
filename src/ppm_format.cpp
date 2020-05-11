@@ -29,14 +29,10 @@ Matrix PPMFormat::decode(){
     auto width = readSize();
     auto height = readSize();
     auto maxSize = readSize();
-    std::cout << "Max Size: " << maxSize << std::endl;
-    std::cout << "Image of size (" << width << "," << height << ")\n";
     if(p == PPMType::P3){
-        std::cout << "Image with type P3 found" << std::endl;
         return readP3(maxSize, width, height);
     }
     else{
-        std::cout << "Image with type P6 found" << std::endl;
         return readP6(maxSize, width, height);
     }
 

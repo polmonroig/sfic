@@ -48,12 +48,7 @@ namespace sfic{
 
         inline unsigned int size() const;
 
-
-
-
-
-
-
+        static const unsigned int BYTE_SIZE = 8;
 
     private:
 
