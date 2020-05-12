@@ -38,6 +38,7 @@ namespace sfic{
 
         static const unsigned int BUFFER_SIZE = 32 *1024;
         static const unsigned int MAX_LENGTH = 256;
+        static const unsigned int MIN_LENGTH = 3; // Min length for a match
 
         unsigned int aheadSize;
         unsigned int offset;
