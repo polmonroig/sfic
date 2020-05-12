@@ -36,7 +36,8 @@ namespace sfic{
 
         unsigned int searchFromIndex(RawData const& data, int i) const;
 
-        static const unsigned int BUFFER_SIZE = 256;
+        static const unsigned int BUFFER_SIZE = 32 *1024;
+        static const unsigned int MAX_LENGTH = 256;
 
         unsigned int aheadSize;
         unsigned int offset;

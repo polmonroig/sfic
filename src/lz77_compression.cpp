@@ -27,17 +27,11 @@ RawData LZ77::encode(RawData const& data){
         bool match = search(data);// 1. search
         if(match){
             shift(data, matchLength); // shift
-            output.push("("+ std::to_string(offset) +"," + std::to_string(matchLength) + ",");
+            output.push("["+ std::to_string(offset) +"," + std::to_string(matchLength) + "]");
             aheadSize += matchLength;
-            output.push(data.get(aheadSize));
-            output.push(')');
-
         }else{
             shift(data, 1); // no match => add a single character
-            output.push("(0,0,");
-
             output.push(data.get(aheadSize));
-            output.push(')');
             ++aheadSize;
         }
     }
@@ -66,7 +60,7 @@ bool LZ77::search(RawData const& data){
     bool found = false;
     // min is needed when search buffer is not full
     unsigned int size = std::min(BUFFER_SIZE, aheadSize);
-    matchLength = 1;
+    matchLength = 0;
     offset = 1;
     for(unsigned int i = 0; i < size; ++i){
         if(searchBuffer[i] == data.get(aheadSize)){
@@ -75,7 +69,7 @@ bool LZ77::search(RawData const& data){
 
             // find sequence with max length
             if(length > matchLength){
-                offset = i;
+                offset = i + 1;
                 matchLength = length;
             }
         }
@@ -85,12 +79,18 @@ bool LZ77::search(RawData const& data){
 
 
 unsigned int LZ77::searchFromIndex(RawData const& data, int i) const{
-
     unsigned int length = 1;
     auto size = i + 1;
-    while(i >= 0 && searchBuffer[i] == data.get(size - i + aheadSize)){
+    while(length < MAX_LENGTH && i >= 0 && searchBuffer[i] == data.get(size - i + aheadSize)){
         --i;
         length++;
+    }
+    if(i < 0){
+        i = aheadSize; //
+        while(i < data.size() && length < MAX_LENGTH && data.get(i) == data.get(i + size + 1)){
+            ++i;
+            ++length;
+        }
     }
     return length;
 }
