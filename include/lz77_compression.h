@@ -30,7 +30,7 @@ namespace sfic{
 
     private:
         // searches for matches in the current
-        // index of the look ahead buffer 
+        // index of the look ahead buffer
         bool search(RawData const& data);
         // moves data from the lookahead buffer into the search buffer
         // by quantity positions
@@ -38,8 +38,6 @@ namespace sfic{
         // given an index in the search buffer , it returns the length
         // the longest match from that position
         unsigned int searchFromIndex(RawData const& data, int i) const;
-
-        static unsigned int intToHex(unsigned int variable);
         // the buffer size fixes the physical size of the search buffer
         // determined by the DEFLATE specifications
         static const unsigned int BUFFER_SIZE = 32 * 1024;

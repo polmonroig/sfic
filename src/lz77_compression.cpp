@@ -62,9 +62,10 @@ RawData LZ77::encode(RawData const& data){
 
 // pre: quantity <= BUFFER_SIZE
 void LZ77::shift(RawData const& data, unsigned int quantity){
-    // shift search buffer elements
+
     // min is needed when search buffer is not full
     unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
+    // shift search buffer elements
     for(int i = quantity; i < size; ++i)
         searchBuffer[i - quantity] = searchBuffer[i];
 
@@ -79,13 +80,14 @@ bool LZ77::search(RawData const& data){
     bool found = false;
     // min is needed when search buffer is not full
     unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
+    // set the matchLength to the minimum, this way
+    // I only accept matches with at least that length
     matchLength = MIN_LENGTH;
     offset = 1;
     // 0 is the last element of the search buffer
     for(unsigned int i = 0; i < size; ++i){
         if(searchBuffer[i] == data.get(aheadPointer)){
             auto length = searchFromIndex(data, i + 1);
-
             // find sequence with max length
             if(length > matchLength){
                 found = true;
@@ -128,8 +130,3 @@ unsigned int LZ77::searchFromIndex(RawData const& data, int i) const{
     }
     return length;
 }
-
-
- unsigned int LZ77::intToHex(unsigned int variable){
-     return variable;
- }
