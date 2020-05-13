@@ -17,22 +17,36 @@ limitations under the License.
 
 using namespace sfic;
 
+/*
+    LOOKAHEAD BUFFER
+    The lookahead buffer is implicit within the data and
+    its size is limited by the max match length
+    SEARCH BUFFER
+    The search buffer is implemented as a fixed array
+    of size 32KB (32 * 1024), specified in the PNG standard
+    The first position of the buffer is indexed by a 0
+*/
+
+/************************
+        PUBLIC
+*************************/
+
 RawData LZ77::encode(RawData const& data){
     RawData output;
-    aheadSize = 0;
+    aheadPointer = 0;
     // setup
 
     // main algorithm
-    while(aheadSize < data.size()){
+    while(aheadPointer < data.size()){
         bool match = search(data);// 1. search
         if(match){
             shift(data, matchLength); // shift
             output.push("["+ std::to_string(offset) +"," + std::to_string(matchLength) + "]");
-            aheadSize += matchLength;
+            aheadPointer += matchLength;
         }else{
             shift(data, 1); // no match => add a single character
-            output.push(data.get(aheadSize));
-            ++aheadSize;
+            output.push(data.get(aheadPointer));
+            ++aheadPointer;
         }
     }
 
@@ -41,35 +55,41 @@ RawData LZ77::encode(RawData const& data){
     return output;
 }
 
+
+/************************
+        PRIVATE
+*************************/
+
 // pre: quantity <= BUFFER_SIZE
 void LZ77::shift(RawData const& data, unsigned int quantity){
     // shift search buffer elements
     // min is needed when search buffer is not full
-    unsigned int size = std::min(BUFFER_SIZE, aheadSize);
-    for(int i = size - quantity; i >= 0; --i)
-        searchBuffer[i + quantity] = searchBuffer[i];
+    unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
+    for(int i = quantity; i < size; ++i)
+        searchBuffer[i - quantity] = searchBuffer[i];
 
     // move elements betweeen buffers
-    quantity--;
-    for(int i = quantity; i >= 0; --i)
-        searchBuffer[i] = data.get(aheadSize + quantity - i);
+    for(int i = size - quantity; i < size; ++i)
+        searchBuffer[i] = data.get(aheadPointer + i);
 
 }
 
 bool LZ77::search(RawData const& data){
+
     bool found = false;
     // min is needed when search buffer is not full
-    unsigned int size = std::min(BUFFER_SIZE, aheadSize);
+    unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
     matchLength = MIN_LENGTH;
     offset = 1;
+    // 0 is the last element of the search buffer
     for(unsigned int i = 0; i < size; ++i){
-        if(searchBuffer[i] == data.get(aheadSize)){
-            auto length = searchFromIndex(data, i - 1);
+        if(searchBuffer[i] == data.get(aheadPointer)){
+            auto length = searchFromIndex(data, i + 1);
 
             // find sequence with max length
             if(length > matchLength){
                 found = true;
-                offset = i + 1;
+                offset = size - i;
                 matchLength = length;
             }
         }
@@ -77,27 +97,39 @@ bool LZ77::search(RawData const& data){
     return found;
 }
 
-// SKIP MATCHES ECLIPSED MY ANOTHER
-// THAT IS WE SHOULD START FROM THE END?
-// TODO -> RETHINK WHOLE BUFFFER IMPLEMENTATION
+
+
 unsigned int LZ77::searchFromIndex(RawData const& data, int i) const{
     unsigned int length = 1;
-    auto size = i + 1;
+    unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
     // continue comparing characters and incrementing the length
     // of the matching string
-    while(length < MAX_LENGTH && i >= 0 && searchBuffer[i] == data.get(size - i + aheadSize)){
-        --i;
+    // CONDITIONS
+    // 1. check length is less than maximum lenght
+    // 2. check iterator lesser than size of the buffer
+    // 3. while there is a character match
+    // RESULT
+    // 1. increment the iterator -> decrements buffer position
+    // 2. increment length
+    while(length < MAX_LENGTH && i < size && searchBuffer[i] == data.get(length + aheadPointer)){
+        ++i;
         length++;
     }
     // when we have compared all the search buffer
     // we can continue to compare data from within the lookup
-    // buffer, this way we can compare the data even further
-    if(i < 0){
-        i = aheadSize; //
-        while(i < data.size() && length < MAX_LENGTH && data.get(i) == data.get(i + size + 1)){
+    // buffer, this way we can compress the data even further
+    if(i >= size){
+        i = aheadPointer;
+        auto currentLength = length;
+        while(i < data.size() && length < MAX_LENGTH && data.get(i) == data.get(i + currentLength)){
             ++i;
             ++length;
         }
     }
     return length;
 }
+
+
+ unsigned int LZ77::intToHex(unsigned int variable){
+     return variable;
+ }

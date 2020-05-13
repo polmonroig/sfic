@@ -17,15 +17,20 @@ limitations under the License.
 
 using namespace sfic;
 
+
 RawData HuffmanCompression::encode(RawData const& data){
     // create frequency table
     RawData output;
-    auto table = getFrequencyTable(data);
+    setFrequencyTable(data);
 
     // create trees
     std::priority_queue<HuffmanTree> minHeap;
-    for(auto const& letter : table)
-        minHeap.push(HuffmanTree(letter.first, letter.second));
+    for(unsigned int letter = 0; letter < ALPHABET_SIZE; ++letter){
+        if(table[letter] > 0)
+            minHeap.push(HuffmanTree(letter, table[letter]));
+    }
+
+
     // join trees
     while(minHeap.size() > 1){
         HuffmanTree min1 = minHeap.top();
@@ -40,12 +45,11 @@ RawData HuffmanCompression::encode(RawData const& data){
     BinaryCodeType stream;
     for(unsigned int i = 0; i < data.size(); ++i){
         stream += codes[data.get(i)];
+        if(stream.size() >= MAX_MEMORY)flushBitsStream(stream, output);
     }
+    // flush remaining bytes
+    flushBitsStream(stream, output);
 
-    // push stream to output
-    for(unsigned int i = 0; i < stream.size() - RawData::BYTE_SIZE; i += RawData::BYTE_SIZE){
-        output.push(std::stoi(stream.substr(i, RawData::BYTE_SIZE),0 , 2));
-    }
     std::cout << "Hufffman compression ratio: " << (float(data.size()) / output.size()) * 100 << std::endl;
 
 
@@ -53,18 +57,23 @@ RawData HuffmanCompression::encode(RawData const& data){
 }
 
 
-FrequencyTableType HuffmanCompression::getFrequencyTable(RawData const& data){
-    FrequencyTableType table;
+void HuffmanCompression::setFrequencyTable(RawData const& data){
+    for(auto& val : table)val = 0; // initalize frequency
     for(unsigned int i = 0; i < data.size(); ++i){
-        auto iterator = table.find(data.get(i));
-        if(iterator == table.end()){
-            table.insert(iterator, {data.get(i), 1});
-        }
-        else{
-            iterator->second++;
-        }
-
+        table[data.get(i)]++;
     }
+}
 
-    return table;
+
+void HuffmanCompression::flushBitsStream(BinaryCodeType& stream, RawData& output){
+    BinaryCodeType singleByte;
+    singleByte.reserve(RawData::BYTE_SIZE);
+    for(unsigned int i = 0; i < stream.size(); ++i){
+        singleByte += stream[i];
+        if(i % RawData::BYTE_SIZE == 0){
+            output.push(std::stoi(singleByte,0 , 2));
+            singleByte = "";
+        }
+    }
+    stream = singleByte;
 }

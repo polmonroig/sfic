@@ -17,23 +17,44 @@ limitations under the License.
 #define  HUFFMAN_COMPRESSION_H
 
 #include <queue>
+#include <array>
 #include <unordered_map>
 
 #include "huffman_tree.h"
 
 namespace sfic{
 
-    typedef std::unordered_map<ByteType, unsigned int> FrequencyTableType;
+
 
     class HuffmanCompression{
 
     public:
 
+
         RawData encode(RawData const& data);
 
     private:
 
-        static FrequencyTableType getFrequencyTable(RawData const& data);
+        void setFrequencyTable(RawData const& data);
+
+        void flushBitsStream(BinaryCodeType& stream, RawData& data);
+
+        // at most 256 different values, for a single byte
+        static const unsigned int ALPHABET_SIZE = 256;
+        // the bits stream is encoded as a string so it starts
+        // to fill the memory very fast, to prevent a memory overflow
+        // every time the stream reaches a MAX_MEMORY size, it must
+        // convert every octet into a byte and push it to the compressed
+        // data, here MAX_MEMORY denotes the max number of characters
+        // thus the maximum memory must by multiplied by 8
+        static const unsigned int MAX_MEMORY = 1024;
+        // the frequency table can be easily encoded with a small array
+        // its size is constant always (ALPHABET_SIZE) and so it
+        // has a constant space complexity O(1), it also offers
+        // a constant lookup, and modification functions O(1)
+        std::array<unsigned int, ALPHABET_SIZE> table; // frequency table
+
+
 
 
     };
