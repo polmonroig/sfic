@@ -43,9 +43,11 @@ namespace sfic{
         static const unsigned int BUFFER_SIZE = 32 * 1024;
         // to limit the max length of an encountered string match
         static const unsigned int MAX_LENGTH = 258;
+        // stop searching is length is long enough
+        static const unsigned int MARGIN_LENGTH = 200;
         // to limit the minimum length a match must have to
         // be considered a match
-        static const unsigned int MIN_LENGTH = 3; // Min length for a match, in reality >= 3
+        static const unsigned int MIN_LENGTH = 5; // Min length for a match
         // aheadSize is a pointer to the first element in the
         // look ahead buffer, hence the name
         unsigned int aheadPointer;

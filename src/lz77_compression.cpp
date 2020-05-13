@@ -85,7 +85,8 @@ bool LZ77::search(RawData const& data){
     matchLength = MIN_LENGTH;
     offset = 1;
     // 0 is the last element of the search buffer
-    for(unsigned int i = 0; i < size; ++i){
+    bool stopSearching = false;
+    for(unsigned int i = 0; i < size && !stopSearching; ++i){
         if(searchBuffer[i] == data.get(aheadPointer)){
             auto length = searchFromIndex(data, i + 1);
             // find sequence with max length
@@ -93,6 +94,10 @@ bool LZ77::search(RawData const& data){
                 found = true;
                 offset = size - i;
                 matchLength = length;
+            }
+            auto separation = size - i + MAX_LENGTH;
+            if(length >= separation || length >= MARGIN_LENGTH){
+                stopSearching = true;
             }
         }
     }
