@@ -62,22 +62,20 @@ RawData LZ77::encode(RawData const& data){
 *************************/
 
 static std::string LZ77::toString(unsigned int i){
-
+    std::string out;
+    
+    return out; 
 }
 
 // pre: quantity <= BUFFER_SIZE
 void LZ77::shift(RawData const& data, unsigned int quantity){
 
-    // min is needed when search buffer is not full
-    unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
     // shift search buffer elements
-    for(int i = quantity; i < size; ++i)
-        searchBuffer[i - quantity] = searchBuffer[i];
-
-    // move elements betweeen buffers
-    for(int i = size - quantity; i < size; ++i)
-        searchBuffer[i] = data.get(aheadPointer + i);
-
+    for(int i = aheadPointer; i < quantity; ++i){
+        searchBuffer.pop_back(); 
+        searchBuffer.push_front(data.get(i)); 
+    }
+       
 }
 
 bool LZ77::search(RawData const& data){
@@ -90,9 +88,12 @@ bool LZ77::search(RawData const& data){
     offset = 1;
     // 0 is the last element of the search buffer
     bool stopSearching = false;
-    for(unsigned int i = 0; i < size && !stopSearching; ++i){
-        if(searchBuffer[i] == data.get(aheadPointer)){
-            auto length = searchFromIndex(data, i + 1);
+    auto it = searchBuffer.begin(); 
+    int i = 0; 
+    while(it != searchBuffer.end() && !stopSearching){
+        if(*it == data.get(aheadPointer)){
+            auto itCopy = it; 
+            auto length = searchFromIndex(data, ++itCopy);
             // find sequence with max length
             if(length > matchLength){
                 found = true;
@@ -106,15 +107,18 @@ bool LZ77::search(RawData const& data){
                 stopSearching = true;
             }
         }
+        ++it; 
+        ++i; // need counter to calculate the offset 
     }
-    return found;
+
+    for(unsigned int i = 0; i < size && !stopSearching; ++i){
+           return found;
 }
 
 
 
-unsigned int LZ77::searchFromIndex(RawData const& data, int i) const{
+unsigned int LZ77::searchFromIndex(RawData const& data, std::deque<int>::const_iterator i) const{
     unsigned int length = 1;
-    unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
     // continue comparing characters and incrementing the length
     // of the matching string
     // CONDITIONS
@@ -124,18 +128,18 @@ unsigned int LZ77::searchFromIndex(RawData const& data, int i) const{
     // RESULT
     // 1. increment the iterator -> decrements buffer position
     // 2. increment length
-    while(length < MAX_LENGTH && i < size && searchBuffer[i] == data.get(length + aheadPointer)){
+    while(length < MAX_LENGTH && i != searchBuffer.end() && *i == data.get(length + aheadPointer)){
         ++i;
         length++;
     }
     // when we have compared all the search buffer
     // we can continue to compare data from within the lookup
     // buffer, this way we can compress the data even further
-    if(i >= size){
-        i = aheadPointer;
+    if(i == searchBuffer.end()){
+        int j = aheadPointer;
         auto currentLength = length;
-        while(i < data.size() && length < MAX_LENGTH && data.get(i) == data.get(i + currentLength)){
-            ++i;
+        while(j < data.size() && length < MAX_LENGTH && data.get(j) == data.get(j + currentLength)){
+            ++j;
             ++length;
         }
     }

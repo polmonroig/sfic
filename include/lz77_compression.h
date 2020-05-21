@@ -37,7 +37,7 @@ namespace sfic{
         void shift(RawData const& data, unsigned int quantity);
         // given an index in the search buffer , it returns the length
         // the longest match from that position
-        unsigned int searchFromIndex(RawData const& data, int i) const;
+        unsigned int searchFromIndex(RawData const& data, std::deque<int>::const_iterator i) const;
         // converts an integer to a string efficiently
         static std::string toString(unsigned int i);
         // the buffer size fixes the physical size of the search buffer
