@@ -61,9 +61,15 @@ RawData LZ77::encode(RawData const& data){
         PRIVATE
 *************************/
 
-static std::string LZ77::toString(unsigned int i){
+std::string LZ77::toString(unsigned int i){
     std::string out;
-    
+    // special case i = 0
+    if(i == 0) out = "0";
+    // other cases 
+    while(i > 0){
+        out = char(i % 10) + out; 
+        i /= 10; 
+    } 
     return out; 
 }
 
@@ -111,8 +117,6 @@ bool LZ77::search(RawData const& data){
         ++i; // need counter to calculate the offset 
     }
 
-    for(unsigned int i = 0; i < size && !stopSearching; ++i){
-           return found;
 }
 
 
