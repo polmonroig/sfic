@@ -33,6 +33,7 @@ using namespace sfic;
 
 RawData LZ77::encode(RawData const& data){
     RawData output;
+    output.reserve(data.size() * 3);
     aheadPointer = 0;
     // setup
 
@@ -41,7 +42,7 @@ RawData LZ77::encode(RawData const& data){
         bool match = search(data);// 1. search
         if(match){
             shift(data, matchLength); // shift
-            output.push("["+ std::to_string(offset) +"," + std::to_string(matchLength) + "]");
+            output.push("["+ toString(offset) +"," + toString(matchLength) + "]");
             aheadPointer += matchLength;
         }else{
             shift(data, 1); // no match => add a single character
@@ -60,6 +61,10 @@ RawData LZ77::encode(RawData const& data){
         PRIVATE
 *************************/
 
+static std::string LZ77::toString(unsigned int i){
+
+}
+
 // pre: quantity <= BUFFER_SIZE
 void LZ77::shift(RawData const& data, unsigned int quantity){
 
@@ -76,7 +81,6 @@ void LZ77::shift(RawData const& data, unsigned int quantity){
 }
 
 bool LZ77::search(RawData const& data){
-
     bool found = false;
     // min is needed when search buffer is not full
     unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
@@ -96,6 +100,8 @@ bool LZ77::search(RawData const& data){
                 matchLength = length;
             }
             auto separation = size - i + MAX_LENGTH;
+            // if length is long enough or given the current
+            // position we cannot get a better one, stop searching
             if(length >= separation || length >= MARGIN_LENGTH){
                 stopSearching = true;
             }

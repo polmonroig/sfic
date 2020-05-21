@@ -38,12 +38,14 @@ namespace sfic{
         // given an index in the search buffer , it returns the length
         // the longest match from that position
         unsigned int searchFromIndex(RawData const& data, int i) const;
+        // converts an integer to a string efficiently
+        static std::string toString(unsigned int i);
         // the buffer size fixes the physical size of the search buffer
         // determined by the DEFLATE specifications
         static const unsigned int BUFFER_SIZE = 32 * 1024;
         // to limit the max length of an encountered string match
         static const unsigned int MAX_LENGTH = 258;
-        // stop searching is length is long enough
+        // stop searching if length is long enough
         static const unsigned int MARGIN_LENGTH = 200;
         // to limit the minimum length a match must have to
         // be considered a match
