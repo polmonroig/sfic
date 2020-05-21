@@ -16,7 +16,7 @@ limitations under the License.
 #ifndef LZ77_COMPRESSION
 #define  LZ77_COMPRESSION
 
-#include <array>
+#include <deque>
 
 #include "raw_data.h"
 
@@ -61,7 +61,9 @@ namespace sfic{
         // represents the search buffer of the algorithm
         // where characters that have already been seen
         // are saved and discarted on buffer fill
-        std::array<ByteType, BUFFER_SIZE> searchBuffer;
+        // implemented as a deque for efficiency since
+        // we can use it as a circular buffer 
+        std::deque<ByteType> searchBuffer;
 
 
     };
