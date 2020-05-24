@@ -14,26 +14,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 #include <iostream>
-#include "../include/exception_handler.h"
 
+#include <arg_parser.h>
+
+#include "../include/exception_handler.h"
 #include "../include/image.h"
 #include "../include/jpeg_format.h"
 
 
-void usage(){
-    std::cout << "  Usage: sfic input output format" << std::endl << std::endl;
-    std::cout << "  input: image to be converted" << std::endl;
-    std::cout << "  output: output compression" << std::endl;
-    std::cout << "  format: the format to be converted to (JPEG, PNG, PPM, TIF, GIF)" << std::endl<< std::endl;
-
-}
-
 
 int main(int argc, char* argv[]){
 
-    if(argc < 4){
-        usage();
-        return -1;
+
+    ap::ArgParser parser;
+    parser.addArgument(ap::Argument("input", 'i', "image to ve converted", ap::ArgumentType::String, true));
+    parser.addArgument(ap::Argument("output", 'o', "output compression", ap::ArgumentType::String, true));
+    parser.addArgument(ap::Argument("format", 'f', "the format to be converted to (JPEG, PNG, PPM, TIF, GIF", ap::ArgumentType::String, true));
+
+    auto parsed = parser.parse(argc, argv);
+
+    if(parser.find("help")){
+        std::cerr << parser.usage("sfic");
+        return EXIT_SUCCESS;
+    }
+
+    if(!parsed){
+        std::cerr << parser.log();
+        return EXIT_FAILURE;
     }
 
     try{
@@ -43,12 +50,12 @@ int main(int argc, char* argv[]){
         data = encoder.encode(data);
         data.write("out.png");*/
         // create image
-        sfic::Image image(argv[1]);
+        sfic::Image image(parser.get("input"));
         // convert
-        sfic::FormatContainer newFormat = sfic::Image::stringToFormat(argv[3]);
+        sfic::FormatContainer newFormat = sfic::Image::stringToFormat(parser.get("format"));
         image.convert(newFormat);
         // save to file
-        image.save(argv[2]);
+        image.save(parser.get("output"));
     }
     catch(sfic::ErrorInputOutput& e){
         std::cerr << e.what() << std::endl;

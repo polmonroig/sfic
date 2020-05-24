@@ -11,6 +11,10 @@ make
 
 make install
 `
+
+# Requirements
+The only requirement is the arg_parser [link](https://github.com/polmonroig/arg_parser) for the application, not the library 
+
 # Usage
 There are two modes, as a C++ library or as a program
 

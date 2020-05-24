@@ -65,12 +65,12 @@ std::string LZ77::toString(unsigned int i){
     std::string out;
     // special case i = 0
     if(i == 0) out = "0";
-    // other cases 
+    // other cases
     while(i > 0){
-        out = char(i % 10) + out; 
-        i /= 10; 
-    } 
-    return out; 
+        out = char(i % 10) + out;
+        i /= 10;
+    }
+    return out;
 }
 
 // pre: quantity <= BUFFER_SIZE
@@ -78,10 +78,10 @@ void LZ77::shift(RawData const& data, unsigned int quantity){
 
     // shift search buffer elements
     for(int i = aheadPointer; i < quantity; ++i){
-        searchBuffer.pop_back(); 
-        searchBuffer.push_front(data.get(i)); 
+        searchBuffer.pop_back();
+        searchBuffer.push_front(data.get(i));
     }
-       
+
 }
 
 bool LZ77::search(RawData const& data){
@@ -94,11 +94,11 @@ bool LZ77::search(RawData const& data){
     offset = 1;
     // 0 is the last element of the search buffer
     bool stopSearching = false;
-    auto it = searchBuffer.begin(); 
-    int i = 0; 
+    auto it = searchBuffer.begin();
+    int i = 0;
     while(it != searchBuffer.end() && !stopSearching){
         if(*it == data.get(aheadPointer)){
-            auto itCopy = it; 
+            auto itCopy = it;
             auto length = searchFromIndex(data, ++itCopy);
             // find sequence with max length
             if(length > matchLength){
@@ -113,15 +113,15 @@ bool LZ77::search(RawData const& data){
                 stopSearching = true;
             }
         }
-        ++it; 
-        ++i; // need counter to calculate the offset 
+        ++it;
+        ++i; // need counter to calculate the offset
     }
 
 }
 
 
 
-unsigned int LZ77::searchFromIndex(RawData const& data, std::deque<int>::const_iterator i) const{
+unsigned int LZ77::searchFromIndex(RawData const& data, std::deque<ByteType>::const_iterator i) const{
     unsigned int length = 1;
     // continue comparing characters and incrementing the length
     // of the matching string

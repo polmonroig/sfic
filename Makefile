@@ -20,7 +20,7 @@ install: sfic
 
 
 sfic: $(INCLUDE) $(SRC)
-	$(GCC) -o $(PROGRAM) $(SRC)
+	$(GCC) -o $(PROGRAM) $(SRC) -laparser
 
 
 clean:
