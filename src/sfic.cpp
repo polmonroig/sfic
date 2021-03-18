@@ -29,6 +29,10 @@ int main(int argc, char* argv[]){
     ap::ArgParser parser;
     parser.addArgument(ap::Argument("input", 'i', "input data", ap::ArgumentType::String, true));
     parser.addArgument(ap::Argument("output", 'o', "output compression", ap::ArgumentType::String, true));
+    auto enumeration = ap::Argument("type", 't', "Specify compression algorithm", ap::ArgumentType::Enum, true);
+    enumeration.addValue("lz77");
+    enumeration.addValue("huffman");
+    parser.addArgument(enumeration);
 
     auto parsed = parser.parse(argc, argv);
 
@@ -43,11 +47,22 @@ int main(int argc, char* argv[]){
     }
 
     try{
-        sfic::LZ77 encoder;
-        sfic::RawData data;
-        data.read(parser.get("input"));
-        data = encoder.encode(data);
-        data.write(parser.get("output"));
+
+        if(parser.get("type") == "lz77"){
+            sfic::LZ77 encoder;
+            sfic::RawData data;
+            data.read(parser.get("input"));
+            data = encoder.encode(data);
+            data.write(parser.get("output"));
+        }
+        else if(parser.get("type") == "huffman"){
+            sfic::HuffmanCompression encoder;
+            sfic::RawData data;
+            data.read(parser.get("input"));
+            data = encoder.encode(data);
+            data.write(parser.get("output"));
+        }
+
 
 
     }

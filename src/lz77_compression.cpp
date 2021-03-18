@@ -76,14 +76,14 @@ std::string LZ77::toString(unsigned int i){
 // pre: quantity <= BUFFER_SIZE
 void LZ77::shift(RawData const& data, unsigned int quantity){
 
-    // min is needed when search buffer is not full
-    unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
+
+
     // shift search buffer elements
-    for(int i = quantity; i < size && !searchBuffer.empty(); ++i)
+    for(int i = 0; i < quantity && searchBuffer.size() >= BUFFER_SIZE; ++i)
         searchBuffer.pop_front();
 
     // move elements betweeen buffers
-    for(int i = size - quantity; i < size; ++i)
+    for(int i = 0; i < quantity; ++i)
         searchBuffer.push_back(data.get(aheadPointer + i));
 
 
