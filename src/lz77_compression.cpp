@@ -76,11 +76,16 @@ std::string LZ77::toString(unsigned int i){
 // pre: quantity <= BUFFER_SIZE
 void LZ77::shift(RawData const& data, unsigned int quantity){
 
+    // min is needed when search buffer is not full
+    unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
     // shift search buffer elements
-    for(int i = aheadPointer; i < quantity; ++i){
-        searchBuffer.pop_back();
-        searchBuffer.push_front(data.get(i));
-    }
+    for(int i = quantity; i < size && !searchBuffer.empty(); ++i)
+        searchBuffer.pop_front();
+
+    // move elements betweeen buffers
+    for(int i = size - quantity; i < size; ++i)
+        searchBuffer.push_back(data.get(aheadPointer + i));
+
 
 }
 
@@ -96,7 +101,7 @@ bool LZ77::search(RawData const& data){
     bool stopSearching = false;
     auto it = searchBuffer.begin();
     int i = 0;
-    while(it != searchBuffer.end() && !stopSearching){
+    while(i < searchBuffer.size() && it != searchBuffer.end() && !stopSearching){
         if(*it == data.get(aheadPointer)){
             auto itCopy = it;
             auto length = searchFromIndex(data, ++itCopy);
@@ -116,6 +121,8 @@ bool LZ77::search(RawData const& data){
         ++it;
         ++i; // need counter to calculate the offset
     }
+
+    return found;
 
 }
 

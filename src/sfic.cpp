@@ -15,7 +15,7 @@ limitations under the License.
 */
 #include <iostream>
 
-#include <arg_parser.h>
+#include "../arg_parser/include/arg_parser.h"
 
 #include "../include/exception_handler.h"
 #include "../include/image.h"
@@ -27,9 +27,8 @@ int main(int argc, char* argv[]){
 
 
     ap::ArgParser parser;
-    parser.addArgument(ap::Argument("input", 'i', "image to ve converted", ap::ArgumentType::String, true));
+    parser.addArgument(ap::Argument("input", 'i', "input data", ap::ArgumentType::String, true));
     parser.addArgument(ap::Argument("output", 'o', "output compression", ap::ArgumentType::String, true));
-    parser.addArgument(ap::Argument("format", 'f', "the format to be converted to (JPEG, PNG, PPM, TIF, GIF", ap::ArgumentType::String, true));
 
     auto parsed = parser.parse(argc, argv);
 
@@ -44,18 +43,13 @@ int main(int argc, char* argv[]){
     }
 
     try{
-        /*sfic::LZ77 encoder;
+        sfic::LZ77 encoder;
         sfic::RawData data;
-        data.read("texto.txt");
+        data.read(parser.get("input"));
         data = encoder.encode(data);
-        data.write("out.png");*/
-        // create image
-        sfic::Image image(parser.get("input"));
-        // convert
-        sfic::FormatContainer newFormat = sfic::Image::stringToFormat(parser.get("format"));
-        image.convert(newFormat);
-        // save to file
-        image.save(parser.get("output"));
+        data.write(parser.get("output"));
+
+
     }
     catch(sfic::ErrorInputOutput& e){
         std::cerr << e.what() << std::endl;
