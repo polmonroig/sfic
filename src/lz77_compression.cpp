@@ -39,6 +39,7 @@ RawData LZ77::encode(RawData const& data){
 
     // main algorithm
     while(aheadPointer < data.size()){
+
         bool match = search(data);// 1. search
         if(match){
             shift(data, matchLength); // shift
