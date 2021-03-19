@@ -52,15 +52,19 @@ int main(int argc, char* argv[]){
             sfic::LZ77 encoder;
             sfic::RawData data;
             data.read(parser.get("input"));
+
             data = encoder.encode(data);
             data.write(parser.get("output"));
         }
         else if(parser.get("type") == "huffman"){
+
             sfic::HuffmanCompression encoder;
             sfic::RawData data;
             data.read(parser.get("input"));
             data = encoder.encode(data);
             data.write(parser.get("output"));
+            //data = encoder.decode(data);
+            //data.write("result.txt");
         }
 
 

@@ -42,19 +42,51 @@ RawData HuffmanCompression::encode(RawData const& data){
 
     auto tree = minHeap.top();
     auto codes = tree.getTable();
-    BinaryCodeType stream;
+    auto alphabet = tree.getAlphabet();
+    auto codedTree = tree.getCode();
+    BinaryCodeType stream = "";
+    std::cout << "Alphabet size: " << alphabet.size() << " bytes"<< std::endl;
+    output.push(char(alphabet.size()));
+    for(auto const& letter : alphabet)output.push(letter);
+
+    std::cout << "Tree size: " << codedTree.size() / 8 << " bytes" << std::endl;
+    stream += codedTree;
+
+
+
     for(unsigned int i = 0; i < data.size(); ++i){
         stream += codes[data.get(i)];
         if(stream.size() >= MAX_MEMORY)flushBitsStream(stream, output);
     }
     // flush remaining bytes
     flushBitsStream(stream, output);
-
-    std::cout << "Hufffman compression ratio: " << (float(data.size()) / output.size()) * 100 << std::endl;
+    output.push(std::stoi(stream,0, 2)); // push final bits
+    std::cout << "Original file size: " << data.size() << " bytes" << std::endl;
+    std::cout << "Compressed file size: " << output.size() << " bytes" << std::endl;
+    std::cout << "Hufffman compression ratio: " << (float(data.size()) / output.size()) << std::endl;
 
 
     return output;
 }
+
+
+RawData HuffmanCompression::decode(RawData const& data){
+    RawData output;
+    auto size = int(data.get(0));
+    std::cerr << "Alphabet size: "<< size << std::endl;
+    BinaryCodeType alphabet = "";
+    for(int i = 1; i < size + 1; ++i){
+        alphabet += data.get(i);
+    }
+    std::cout << "Alphabet: " << alphabet << std::endl;
+
+    HuffmanTree tree;
+    tree.build(data, size);
+
+
+    return output;
+}
+
 
 
 void HuffmanCompression::setFrequencyTable(RawData const& data){
@@ -63,6 +95,7 @@ void HuffmanCompression::setFrequencyTable(RawData const& data){
         table[data.get(i)]++;
     }
 }
+
 
 
 void HuffmanCompression::flushBitsStream(BinaryCodeType& stream, RawData& output){

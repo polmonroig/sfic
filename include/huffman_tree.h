@@ -31,6 +31,8 @@ namespace sfic{
 
     public:
 
+        HuffmanTree() = default;
+
         HuffmanTree(ByteType v, unsigned int w);
 
         HuffmanTree(HuffmanTree const& tree);
@@ -39,17 +41,29 @@ namespace sfic{
 
         bool operator<(HuffmanTree const& other) const;
 
-        HuffmanCodesTable getTable() const;
+        HuffmanCodesTable getTable();
+
+        BinaryCodeType getCode() const;
+
+        BinaryCodeType getAlphabet() const;
+
+        void build(RawData const& data, unsigned int alphabetSize);
 
     private:
 
 
-        static void getBinaryCode(std::shared_ptr<HuffmanTree> const& tree, HuffmanCodesTable& table, BinaryCodeType const& code);
+        static void getBinaryCode(std::shared_ptr<HuffmanTree> const& tree, HuffmanCodesTable& table,
+                                  BinaryCodeType const& code, BinaryCodeType& codedTree, BinaryCodeType& alphabet);
 
         static const int NULL_VALUE = -1;
 
         std::shared_ptr<HuffmanTree> left;
         std::shared_ptr<HuffmanTree> right;
+
+        BinaryCodeType codedTree;
+        BinaryCodeType alphabet;
+
+
 
         ByteType value;
         unsigned int weight;

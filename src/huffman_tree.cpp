@@ -47,21 +47,44 @@ HuffmanTree::HuffmanTree(HuffmanTree const& h1, HuffmanTree const& h2) {
     value = NULL_VALUE;
 }
 
-HuffmanCodesTable HuffmanTree::getTable() const{
+void HuffmanTree::build(RawData const& data, unsigned int alphabetSize){
+    unsigned int i = alphabetSize + 1;
+    HuffmanCodesTable codes;
+    // while there are still letters in the current alphabet
+    while(codes.size() < alphabetSize){
+
+    }
+}
+
+
+BinaryCodeType HuffmanTree::getCode() const{
+    return codedTree;
+}
+
+BinaryCodeType HuffmanTree::getAlphabet() const{
+    return alphabet;
+}
+
+HuffmanCodesTable HuffmanTree::getTable() {
     HuffmanCodesTable codes;
     BinaryCodeType code = "";
-    getBinaryCode(left, codes, code + "0");
-    getBinaryCode(right, codes, code + "1");
+    codedTree = "";
+    getBinaryCode(left, codes, code + "0", codedTree, alphabet);
+    getBinaryCode(right, codes, code + "1", codedTree, alphabet);
     return codes;
 }
 
-void HuffmanTree::getBinaryCode(std::shared_ptr<HuffmanTree> const& tree, HuffmanCodesTable& table, BinaryCodeType const& code){
+void HuffmanTree::getBinaryCode(std::shared_ptr<HuffmanTree> const& tree, HuffmanCodesTable& table,
+                                BinaryCodeType const& code, BinaryCodeType& codedTree, BinaryCodeType& alphabet){
     if(tree->isLeaf){
         table[tree->value] = code;
+        codedTree += "0";
+        alphabet += tree->value;
     }
     else{
-        getBinaryCode(tree->left, table, code + "0");
-        getBinaryCode(tree->right, table, code + "1");
+        codedTree += "1";
+        getBinaryCode(tree->left, table, code + "0", codedTree, alphabet);
+        getBinaryCode(tree->right, table, code + "1", codedTree, alphabet);
     }
 }
 

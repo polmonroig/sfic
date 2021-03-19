@@ -33,6 +33,8 @@ namespace sfic{
 
         RawData encode(RawData const& data);
 
+        RawData decode(RawData const& data);
+
     private:
 
         void setFrequencyTable(RawData const& data);
