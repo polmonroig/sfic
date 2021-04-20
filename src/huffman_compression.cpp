@@ -49,7 +49,7 @@ RawData HuffmanCompression::encode(RawData const& data){
     output.push(char(alphabet.size()));
     for(auto const& letter : alphabet)output.push(letter);
 
-    std::cout << "Tree size: " << codedTree.size() / 8 << " bytes" << std::endl;
+    std::cout << "Tree size: " << codedTree.size() / 8.0 << " bytes" << std::endl;
     stream += codedTree;
 
 
@@ -63,7 +63,7 @@ RawData HuffmanCompression::encode(RawData const& data){
     output.push(std::stoi(stream,0, 2)); // push final bits
     std::cout << "Original file size: " << data.size() << " bytes" << std::endl;
     std::cout << "Compressed file size: " << output.size() << " bytes" << std::endl;
-    std::cout << "Hufffman compression ratio: " << (float(data.size()) / output.size()) << std::endl;
+    std::cout << "Hufffman compression ratio: " << (output.size() / float(data.size())) * 100 << "%" << std::endl;
 
 
     return output;

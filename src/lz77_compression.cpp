@@ -51,8 +51,9 @@ RawData LZ77::encode(RawData const& data){
             ++aheadPointer;
         }
     }
-
-    std::cout << "LZ77 compression ratio: " << (float(data.size()) / output.size()) * 100 << std::endl;
+    std::cout << "Original file size: " << data.size() << " bytes" << std::endl;
+    std::cout << "Compressed file size: " << output.size() << " bytes" << std::endl;
+    std::cout << "LZ77 compression ratio: " << (float(output.size()) / data.size()) * 100 << "%"<< std::endl;
 
     return output;
 }
@@ -93,26 +94,54 @@ void LZ77::shift(RawData const& data, unsigned int quantity){
 bool LZ77::search(RawData const& data){
     bool found = false;
     // min is needed when search buffer is not full
-    unsigned int size = std::min(BUFFER_SIZE, aheadPointer);
+    // search buffer will be full <=> aheadPointer >= BUFFER_SIZE
+    unsigned int sizeBuffer = std::min(BUFFER_SIZE, aheadPointer);
     // set the matchLength to the minimum, this way
     // I only accept matches with at least that length
     matchLength = MIN_LENGTH;
+    // offset will always be > 0
     offset = 1;
     // 0 is the last element of the search buffer
     bool stopSearching = false;
     auto it = searchBuffer.begin();
     int i = 0;
-    while(i < searchBuffer.size() && it != searchBuffer.end() && !stopSearching){
+    // here we verify two conditions
+    // 1. We are searching inside our search buffer => we can search
+    //    further from the search buffer but a match must always start
+    //    inside the buffer, the iterator (i and it) are used to find
+    //    the first character of the match.
+    // 2. the condition to stop searching is not met
+    //
+    // The idea of this search is the following. We iteratre every position
+    // on the search buffer. If a character matches the current byte (aheadPointer)
+    // it means that we might find ourselves a match. Once we find a match we must
+    // then copy the iterator (so that we don't lose its value) and make a search
+    // from there. The searchFromIndex will search for a bigger match based on the
+    // initial position we found, the searchFromIndex will loop until there is no match
+    // and return the length of that match.
+    // Once we have the lenght, we compare it with the matchLength we have,
+    // matchLength is the minimum lenght we have found, the idea is to loop for every position
+    // inside the search bufffer and find the best possible match, we find the minimum
+    // for every match. The initial value for the matchLength is MIN_LENGTH, thus
+    // we are enforcing that every possible match we found must have this length at least.
+    // Once we finish that we must calculate the separation, the separation is the difference
+    // from the position we are right now, the size of the buffer and the maximum possible lenght.
+    // separation = totalSize - current position (this is the size left) + MAX_LENGTH
+    // we add the MAX_LENGTH because the size of the match might be bigger. The idea is to
+    // see if it is possible to find a bigger match, if not, stop looking. After that
+    // we also see if match is "good" enough. If it is bigger than the MARGIN_LENGTH it means
+    // we have a good enough match
+    while(i < searchBuffer.size() && !stopSearching){
         if(*it == data.get(aheadPointer)){
             auto itCopy = it;
             auto length = searchFromIndex(data, ++itCopy);
             // find sequence with max length
             if(length > matchLength){
                 found = true;
-                offset = size - i;
+                offset = sizeBuffer - i;
                 matchLength = length;
             }
-            auto separation = size - i + MAX_LENGTH;
+            auto separation = sizeBuffer - i + MAX_LENGTH;
             // if length is long enough or given the current
             // position we cannot get a better one, stop searching
             if(length >= separation || length >= MARGIN_LENGTH){
@@ -147,6 +176,7 @@ unsigned int LZ77::searchFromIndex(RawData const& data, std::deque<ByteType>::co
     // when we have compared all the search buffer
     // we can continue to compare data from within the lookup
     // buffer, this way we can compress the data even further
+    // NOTE: THIS condition is never met or at least it does not help, need to fix it
     if(i == searchBuffer.end()){
         int j = aheadPointer;
         auto currentLength = length;

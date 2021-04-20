@@ -32,6 +32,7 @@ int main(int argc, char* argv[]){
     auto enumeration = ap::Argument("type", 't', "Specify compression algorithm", ap::ArgumentType::Enum, true);
     enumeration.addValue("lz77");
     enumeration.addValue("huffman");
+    enumeration.addValue("both");
     parser.addArgument(enumeration);
 
     auto parsed = parser.parse(argc, argv);
@@ -65,6 +66,15 @@ int main(int argc, char* argv[]){
             data.write(parser.get("output"));
             //data = encoder.decode(data);
             //data.write("result.txt");
+        }
+        else if(parser.get("type") == "both"){
+            sfic::HuffmanCompression encoder1;
+            sfic::LZ77 encoder2;
+            sfic::RawData data;
+            data.read(parser.get("input"));
+            data = encoder1.encode(data);
+            data = encoder2.encode(data);
+            data.write(parser.get("output"));
         }
 
 

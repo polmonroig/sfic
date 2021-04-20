@@ -41,8 +41,8 @@ namespace sfic{
         // converts an integer to a string efficiently
         static std::string toString(unsigned int i);
         // the buffer size fixes the physical size of the search buffer
-        // determined by the DEFLATE specifications
-        static const unsigned int BUFFER_SIZE = 32 * 1024;
+        // determined by the DEFLATE specifications (32 * 1024)
+        static const unsigned int BUFFER_SIZE = 1024;
         // to limit the max length of an encountered string match
         static const unsigned int MAX_LENGTH = 258;
         // stop searching if length is long enough
