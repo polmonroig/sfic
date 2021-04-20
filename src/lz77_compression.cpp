@@ -140,13 +140,19 @@ bool LZ77::search(RawData const& data){
                 found = true;
                 offset = sizeBuffer - i;
                 matchLength = length;
+                // only do this if the match is good
+
+                // if length is long enough or given the current
+                // position we cannot get a better one, stop searching
+                // IMPORTANT: Iterating over all the search buffer is extremely
+                // costly to speed and it is not completely beneficial
+                auto separation = sizeBuffer - i + MAX_LENGTH;
+                if(length >= separation || length >= MARGIN_LENGTH){
+                    stopSearching = true;
+                }
             }
-            auto separation = sizeBuffer - i + MAX_LENGTH;
-            // if length is long enough or given the current
-            // position we cannot get a better one, stop searching
-            if(length >= separation || length >= MARGIN_LENGTH){
-                stopSearching = true;
-            }
+
+
         }
         ++it;
         ++i; // need counter to calculate the offset

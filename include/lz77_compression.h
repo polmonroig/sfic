@@ -46,7 +46,7 @@ namespace sfic{
         // to limit the max length of an encountered string match
         static const unsigned int MAX_LENGTH = 2056 * 2;
         // stop searching if length is long enough
-        static const unsigned int MARGIN_LENGTH = 2056 * 2;
+        static const unsigned int MARGIN_LENGTH = 256;
         // to limit the minimum length a match must have to
         // be considered a match
         static const unsigned int MIN_LENGTH = 5; // Min length for a match
