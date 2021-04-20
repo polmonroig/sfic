@@ -44,9 +44,9 @@ namespace sfic{
         // determined by the DEFLATE specifications (32 * 1024)
         static const unsigned int BUFFER_SIZE = 1024;
         // to limit the max length of an encountered string match
-        static const unsigned int MAX_LENGTH = 2056;
+        static const unsigned int MAX_LENGTH = 2056 * 2;
         // stop searching if length is long enough
-        static const unsigned int MARGIN_LENGTH = 2056;
+        static const unsigned int MARGIN_LENGTH = 2056 * 2;
         // to limit the minimum length a match must have to
         // be considered a match
         static const unsigned int MIN_LENGTH = 5; // Min length for a match

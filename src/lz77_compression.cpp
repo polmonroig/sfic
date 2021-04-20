@@ -43,7 +43,7 @@ RawData LZ77::encode(RawData const& data){
         bool match = search(data);// 1. search
         if(match){
             shift(data, matchLength); // shift
-            output.push("["+ toString(offset) +"," + toString(matchLength) + "]");
+            output.push(toString(offset) + toString(matchLength));
             aheadPointer += matchLength;
         }else{
             shift(data, 1); // no match => add a single character
@@ -176,7 +176,6 @@ unsigned int LZ77::searchFromIndex(RawData const& data, std::deque<ByteType>::co
     // when we have compared all the search buffer
     // we can continue to compare data from within the lookup
     // buffer, this way we can compress the data even further
-    // NOTE: THIS condition is never met or at least it does not help, need to fix it
     if(i == searchBuffer.end()){
         int j = aheadPointer;
         auto currentLength = length;
