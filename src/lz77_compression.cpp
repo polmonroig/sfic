@@ -39,15 +39,15 @@ RawData LZ77::encode(RawData const& data){
 
     // main algorithm
     while(aheadPointer < data.size()){
-        std::cout << "Looking at " << data.get(aheadPointer) << std::endl;
+        // std::cout << "Looking at " << data.get(aheadPointer) << std::endl;
         bool match = search(data);// 1. search
         if(match){
-            std::cout << "Found a match of length " << matchLength << " and offset " << offset << std::endl;
+            // std::cout << "Found a match of length " << matchLength << " and offset " << offset << std::endl;
             shift(data, matchLength); // shift
             output.push(toString(offset) + toString(matchLength));
             aheadPointer += matchLength;
         }else{
-            std::cout << "No match found" << std::endl;
+            // std::cout << "No match found" << std::endl;
             shift(data, 1); // no match => add a single character
             output.push(data.get(aheadPointer));
             ++aheadPointer;
@@ -114,7 +114,7 @@ bool LZ77::search(RawData const& data){
     //    the first character of the match.
     // 2. the condition to stop searching is not met
     //
-    // The idea of this search is the following. We iteratre every position
+    // The idea of this search is the following. We iterate every position
     // on the search buffer. If a character matches the current byte (aheadPointer)
     // it means that we might find ourselves a match. Once we find a match we must
     // then copy the iterator (so that we don't lose its value) and make a search
@@ -123,7 +123,7 @@ bool LZ77::search(RawData const& data){
     // and return the length of that match.
     // Once we have the lenght, we compare it with the matchLength we have,
     // matchLength is the minimum lenght we have found, the idea is to loop for every position
-    // inside the search bufffer and find the best possible match, we find the minimum
+    // inside the search buffer and find the best possible match, we find the minimum
     // for every match. The initial value for the matchLength is MIN_LENGTH, thus
     // we are enforcing that every possible match we found must have this length at least.
     // Once we finish that we must calculate the separation, the separation is the difference

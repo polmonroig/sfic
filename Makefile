@@ -1,4 +1,5 @@
 STD = -std=c++2a
+# OPT = -Ofast -march=native -frename-registers
 OPT = -O3
 WARN = -Wall -Wextra
 GCC = g++ $(OPT) $(STD) $(WARN)
@@ -23,7 +24,7 @@ install: sfic
 
 
 sfic: $(INCLUDE) $(SRC)
-	$(GCC) -o $(PROGRAM) $(SRC) 
+	$(GCC) -o $(PROGRAM) $(SRC)
 
 
 clean:
