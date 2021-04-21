@@ -39,13 +39,15 @@ RawData LZ77::encode(RawData const& data){
 
     // main algorithm
     while(aheadPointer < data.size()){
-
+        std::cout << "Looking at " << data.get(aheadPointer) << std::endl;
         bool match = search(data);// 1. search
         if(match){
+            std::cout << "Found a match of length " << matchLength << " and offset " << offset << std::endl;
             shift(data, matchLength); // shift
             output.push(toString(offset) + toString(matchLength));
             aheadPointer += matchLength;
         }else{
+            std::cout << "No match found" << std::endl;
             shift(data, 1); // no match => add a single character
             output.push(data.get(aheadPointer));
             ++aheadPointer;
