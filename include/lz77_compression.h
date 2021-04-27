@@ -16,7 +16,7 @@ limitations under the License.
 #ifndef LZ77_COMPRESSION
 #define  LZ77_COMPRESSION
 
-#include <deque>
+#include "match_table.h"
 
 #include "raw_data.h"
 
@@ -26,30 +26,31 @@ namespace sfic{
 
     public:
 
+        LZ77();
+
         RawData encode(RawData const& data);
 
     private:
         // searches for matches in the current
         // index of the look ahead buffer
-        bool search(RawData const& data);
-        // moves data from the lookahead buffer into the search buffer
-        // by quantity positions
-        void shift(RawData const& data, unsigned int quantity);
+        bool search(RawData const& data, ByteArray const& literal);
         // given an index in the search buffer , it returns the length
         // the longest match from that position
-        unsigned int searchFromIndex(RawData const& data, std::deque<ByteType>::const_iterator i) const;
+        unsigned int searchFromIndex(RawData const& data, unsigned int matchIterator) const;
         // converts an integer to a string efficiently
         static std::string toString(unsigned int i);
         // the buffer size fixes the physical size of the search buffer
         // determined by the DEFLATE specifications (32 * 1024)
-        static const unsigned int BUFFER_SIZE = 1024;
+        static const unsigned int BUFFER_SIZE = 32768;
         // to limit the max length of an encountered string match
         static const unsigned int MAX_LENGTH = 2056 * 2;
         // stop searching if length is long enough
         static const unsigned int MARGIN_LENGTH = 32;
+        // defines the maximum possible offset
+        static const unsigned int MAX_OFFSET_LENGTH = 65535;
         // to limit the minimum length a match must have to
         // be considered a match
-        static const unsigned int MIN_LENGTH = 5; // Min length for a match
+        static const unsigned int MINMATCH_LENGTH = 4; // Min length for a match
         // aheadSize is a pointer to the first element in the
         // look ahead buffer, hence the name
         unsigned int aheadPointer;
@@ -59,11 +60,7 @@ namespace sfic{
         // contains the largest match at a given time
         unsigned int matchLength;
         // represents the search buffer of the algorithm
-        // where characters that have already been seen
-        // are saved and discarted on buffer fill
-        // implemented as a deque for efficiency since
-        // we can use it as a circular buffer
-        std::deque<ByteType> searchBuffer;
+        MatchTable searchBuffer;
 
 
     };

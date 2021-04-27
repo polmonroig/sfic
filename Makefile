@@ -7,9 +7,11 @@ PROGRAM = sfic
 
 ARGPARSER = arg_parser argument
 UTILS = exception_handler
-ALGORITHMS = lz77_compression huffman_tree huffman_compression
+DATA_STRUCTURES = huffman_tree match_table matrix
+CONTAINERS = format image raw_data
+ALGORITHMS = lz77_compression  huffman_compression
 FORMATS = ppm_format jpeg_format png_format
-FILES = $(UTILS) $(ALGORITHMS) format image $(FORMATS) matrix raw_data
+FILES = $(UTILS) $(ALGORITHMS) $(DATA_STRUCTURES) $(CONTAINERS) $(FORMATS)
 INCLUDE = $(addprefix include/,$(addsuffix .h,$(FILES))) \
 		  $(addprefix ../arg_parser/include/,$(addsuffix .h,$(ARGPARSER)))
 MAIN = src/sfic.cpp

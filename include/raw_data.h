@@ -27,6 +27,7 @@ limitations under the License.
 namespace sfic{
 
     typedef unsigned char ByteType;
+    typedef std::vector<ByteType> ByteArray;
 
     class RawData{
 
@@ -46,6 +47,8 @@ namespace sfic{
 
         inline ByteType get(unsigned int pos) const;
 
+        inline ByteArray subVector(unsigned int left, unsigned int right) const;
+
         inline unsigned int size() const;
 
         static const unsigned int BYTE_SIZE = 8;
@@ -64,7 +67,16 @@ namespace sfic{
     *************************/
 
 
+    inline ByteArray RawData::subVector(unsigned int left, unsigned int right) const{
+        if(left > right){
+            throw std::invalid_argument("Index Error: sfic::RawData::subVector left is greater than right" );
+        }
+        ByteArray::const_iterator first = bytes.begin() + left;
+        if(right >= bytes.size()) right = bytes.size() - 1;
+        ByteArray::const_iterator last = bytes.begin() + right;
+        return ByteArray(first, last); // O(n) construction
 
+    }
 
     inline ByteType RawData::get(unsigned int pos) const{
         return bytes[pos];
